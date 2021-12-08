@@ -1,6 +1,6 @@
 package me.badbones69.crazyenchantments;
 
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.currencyapi.CurrencyAPI;
@@ -9,10 +9,6 @@ import me.badbones69.crazyenchantments.commands.*;
 import me.badbones69.crazyenchantments.controllers.*;
 import me.badbones69.crazyenchantments.enchantments.*;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
-import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
-import me.badbones69.premiumhooks.anticheat.DakataAntiCheatSupport;
-import me.badbones69.premiumhooks.spawners.SilkSpawnerSupport;
-import me.badbones69.premiumhooks.spawners.SilkSpawnersCandcSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -24,10 +20,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Main extends JavaPlugin implements Listener {
+public class CrazyEnchantments extends JavaPlugin implements Listener {
     
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
-    private FileManager fileManager = FileManager.getInstance();
+    private final CrazyManager ce = CrazyManager.getInstance();
+    private final FileManager fileManager = FileManager.getInstance();
     private boolean fixHealth;
     private Armor armor;
     
@@ -35,19 +31,19 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         fileManager.logInfo(true).setup(this);
         ce.load();
-        SupportedPlugins.printHooks();
+        //SupportedPlugins.printHooks();
         Methods.hasUpdate();
         CurrencyAPI.loadCurrency();
         fixHealth = Files.CONFIG.getFile().getBoolean("Settings.Reset-Players-Max-Health");
         for (Player player : Bukkit.getOnlinePlayers()) {
             ce.loadCEPlayer(player);
-            if (fixHealth) {
-                if (ce.useHealthAttributes()) {
-                    player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
-                } else {
-                    player.setMaxHealth(20);
-                }
-            }
+            //if (fixHealth) {
+            //    if (ce.useHealthAttributes()) {
+            //        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+            //    } else {
+            //        player.setMaxHealth(20);
+            //    }
+            //}
         }
         getCommand("crazyenchantments").setExecutor(new CECommand());
         getCommand("crazyenchantments").setTabCompleter(new CETab());
@@ -61,7 +57,6 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new ShopControl(), this);
         pm.registerEvents(new InfoGUIControl(), this);
         if (ce.isGkitzEnabled()) pm.registerEvents(new GKitzController(), this);
-
         pm.registerEvents(new LostBookController(), this);
         pm.registerEvents(new EnchantmentControl(), this);
         pm.registerEvents(new SignControl(), this);
@@ -86,12 +81,8 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(armor = new Armor(), this);
         pm.registerEvents(new Swords(), this);
         pm.registerEvents(new AllyEnchantments(), this);
-        if (SupportedPlugins.AAC.isPluginLoaded()) pm.registerEvents(new AACSupport(), this);
-        if (SupportedPlugins.SILK_SPAWNERS.isPluginLoaded()) pm.registerEvents(new SilkSpawnerSupport(), this);
-        if (SupportedPlugins.SILK_SPAWNERS_CANDC.isPluginLoaded()) pm.registerEvents(new SilkSpawnersCandcSupport(), this);
-        if (SupportedPlugins.DAKATA.isPluginLoaded()) pm.registerEvents(new DakataAntiCheatSupport(), this);
         //==========================================================================\\
-        new Metrics(this);// Starts up bStats
+        //new Metrics(this);// Starts up bStats
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -117,13 +108,13 @@ public class Main extends JavaPlugin implements Listener {
         final Player player = e.getPlayer();
         ce.loadCEPlayer(player);
         ce.updatePlayerEffects(player);
-        if (fixHealth) {
-            if (ce.useHealthAttributes()) {
-                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
-            } else {
-                player.setMaxHealth(20);
-            }
-        }
+        //if (fixHealth) {
+        //    if (ce.useHealthAttributes()) {
+        //        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+        //    } else {
+        //        player.setMaxHealth(20);
+        //    }
+        //}
         new BukkitRunnable() {
             @Override
             public void run() {
