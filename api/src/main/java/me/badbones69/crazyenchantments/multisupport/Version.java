@@ -20,17 +20,13 @@ public enum Version {
     
     private static Version currentVersion;
     private static Version latest;
-    private int versionInteger;
+    private final int versionInteger;
     
     private Version(int versionInteger) {
         this.versionInteger = versionInteger;
     }
-    
-    /**
-     *
-     * @return Get the server's Minecraft version.
-     */
-    public static Version getCurrentVersion() {
+
+    public static void getCurrentVersion() {
         if (currentVersion == null) {
             String ver = Bukkit.getServer().getClass().getPackage().getName();
             int v = Integer.parseInt(ver.substring(ver.lastIndexOf('.') + 1).replace("_", "").replace("R", "").replace("v", ""));
@@ -47,7 +43,6 @@ public enum Version {
                 currentVersion = Version.TOO_NEW;
             }
         }
-        return currentVersion;
     }
     
     /**
@@ -65,7 +60,6 @@ public enum Version {
             return v;
         } else {
             return latest;
-            
         }
     }
     
@@ -90,8 +84,6 @@ public enum Version {
             result = 1;
         } else if (current == check) {// check is the same as current
             result = 0;
-        } else if (check == -1) {// check is older then current
-            result = -1;
         }
         return result;
     }
@@ -117,13 +109,12 @@ public enum Version {
     }
     
     /**
-     * Checks to see if the current version is older then the checked version.
+     * Checks to see if the current version is older than the checked version.
      * @param version The version you are checking.
-     * @return True if older then the checked version and false if the same or newer.
+     * @return True if older than the checked version and false if the same or newer.
      */
     public static boolean isOlder(Version version) {
         if (currentVersion == null) getCurrentVersion();
         return currentVersion.versionInteger < version.versionInteger || currentVersion.versionInteger == -1;
     }
-    
 }

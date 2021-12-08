@@ -14,12 +14,11 @@ public class VaultSupport {
     }
     
     public static void loadVault() {
-        if (SupportedPlugins.VAULT.isPluginLoaded()) {
-            RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
-            if (rsp != null) {
-                vault = rsp.getProvider();
-            }
-        }
+        //if (SupportedPlugins.VAULT.isPluginLoaded()) {
+        //    RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+        //    if (rsp != null) {
+        //        vault = rsp.getProvider();
+        //    }
+        //}
     }
-    
 }

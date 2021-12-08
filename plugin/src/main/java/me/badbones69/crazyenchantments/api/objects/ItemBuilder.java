@@ -2,7 +2,7 @@ package me.badbones69.crazyenchantments.api.objects;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.multisupport.SkullCreator;
 import me.badbones69.crazyenchantments.multisupport.Version;
 import org.bukkit.ChatColor;
@@ -37,8 +37,7 @@ import java.util.stream.Collectors;
  */
 public class ItemBuilder implements Cloneable {
     
-    private static CrazyEnchantments ce = CrazyEnchantments.getInstance();
-    private static boolean useNewMaterial = ce.useNewMaterial();
+    private static CrazyManager ce = CrazyManager.getInstance();
     private Material material;
     private int damage;
     private String name;
@@ -119,17 +118,13 @@ public class ItemBuilder implements Cloneable {
         if (item.hasItemMeta()) {
             ItemMeta itemMeta = item.getItemMeta();
             itemBuilder.setName(itemMeta.getDisplayName())
-            .setLore(itemMeta.getLore());
+                    .setLore(itemMeta.getLore());
             NBTItem nbt = new NBTItem(item);
             if (nbt.hasKey("Unbreakable")) {
                 itemBuilder.setUnbreakable(nbt.getBoolean("Unbreakable"));
             }
-            if (useNewMaterial) {
-                if (itemMeta instanceof Damageable) {
-                    itemBuilder.setDamage(((Damageable) itemMeta).getDamage());
-                }
-            } else {
-                itemBuilder.setDamage(item.getDurability());
+            if (itemMeta instanceof Damageable) {
+                itemBuilder.setDamage(((Damageable) itemMeta).getDamage());
             }
         }
         return itemBuilder;
@@ -231,7 +226,7 @@ public class ItemBuilder implements Cloneable {
      */
     public ItemBuilder setMaterial(Material material) {
         this.material = material;
-        this.isHead = material == (useNewMaterial ? Material.matchMaterial("PLAYER_HEAD") : Material.matchMaterial("SKULL_ITEM"));
+        this.isHead = material == (Material.matchMaterial("PLAYER_HEAD"));
         return this;
     }
     
@@ -331,7 +326,7 @@ public class ItemBuilder implements Cloneable {
      * @return The ItemBuilder with updated info.
      */
     public ItemBuilder setMaterial(String newMaterial, String oldMaterial) {
-        return setMaterial(ce.useNewMaterial() ? newMaterial : oldMaterial);
+        return setMaterial(newMaterial);
     }
     
     /**

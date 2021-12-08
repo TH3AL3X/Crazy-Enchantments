@@ -1,7 +1,7 @@
 package me.badbones69.crazyenchantments.controllers;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.currencyapi.Currency;
 import me.badbones69.crazyenchantments.api.currencyapi.CurrencyAPI;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Tinkerer implements Listener {
     
-    private static CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private static CrazyManager ce = CrazyManager.getInstance();
     
     public static void openTinker(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, Methods.color(Files.TINKER.getFile().getString("Settings.GUIName")));
@@ -197,9 +197,9 @@ public class Tinkerer implements Listener {
             lore.add(l.replace("%Total%", getTotalXP(item) + "").replace("%total%", getTotalXP(item) + ""));
         }
         ItemStack it = new ItemBuilder().setMaterial(id).setName(name).setLore(lore).build();
-        if (SupportedPlugins.MEGA_SKILLS.isPluginLoaded()) {
-            it = new ItemBuilder().setMaterial("EXPERIENCE_BOTTLE", "EXP_BOTTLE").setName("&6Enhanced Exp - &a&l" + getTotalXP(item) + " EXP").build();
-        }
+        //if (SupportedPlugins.MEGA_SKILLS.isPluginLoaded()) {
+        //    it = new ItemBuilder().setMaterial("EXPERIENCE_BOTTLE", "EXP_BOTTLE").setName("&6Enhanced Exp - &a&l" + getTotalXP(item) + " EXP").build();
+        //}
         return it;
     }
     

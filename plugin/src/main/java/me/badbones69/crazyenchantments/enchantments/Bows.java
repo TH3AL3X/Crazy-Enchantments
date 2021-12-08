@@ -1,7 +1,7 @@
 package me.badbones69.crazyenchantments.enchantments;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.events.EnchantmentUseEvent;
@@ -10,9 +10,6 @@ import me.badbones69.crazyenchantments.api.objects.*;
 import me.badbones69.crazyenchantments.multisupport.Support;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
 import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
-import me.badbones69.crazyenchantments.multisupport.anticheats.NoCheatPlusSupport;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,7 +37,7 @@ import java.util.List;
 
 public class Bows implements Listener {
     
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private Support support = Support.getInstance();
     private List<EnchantedArrow> enchantedArrows = new ArrayList<>();
     private Material web = new ItemBuilder().setMaterial("COBWEB", "WEB").getMaterial();
@@ -68,7 +65,7 @@ public class Bows implements Listener {
                                 enchantedArrows.add(new EnchantedArrow(spawnedArrow, e.getEntity(), bow, enchantments));
                                 spawnedArrow.setShooter(e.getEntity());
                                 spawnedArrow.setBounce(false);
-                                Vector v = new Vector(randomSpred(), 0, randomSpred());
+                                Vector v = new Vector(randomSpread(), 0, randomSpread());
                                 spawnedArrow.setVelocity(e.getProjectile().getVelocity().add(v));
                                 if (((Arrow) e.getProjectile()).isCritical()) {
                                     spawnedArrow.setCritical(true);
@@ -86,7 +83,7 @@ public class Bows implements Listener {
                             Arrow spawnedArrow = e.getEntity().getWorld().spawn(e.getProjectile().getLocation(), Arrow.class);
                             spawnedArrow.setShooter(e.getEntity());
                             spawnedArrow.setBounce(false);
-                            Vector v = new Vector(randomSpred(), 0, randomSpred());
+                            Vector v = new Vector(randomSpread(), 0, randomSpread());
                             spawnedArrow.setVelocity(e.getProjectile().getVelocity().add(v));
                             if (((Arrow) e.getProjectile()).isCritical()) {
                                 spawnedArrow.setCritical(true);
@@ -177,31 +174,19 @@ public class Bows implements Listener {
                         location.getWorld().playSound(location, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT", "ENTITY_LIGHTNING_IMPACT"), (float) lightningSoundRange / 16f, 1);
                     } catch (Exception ignore) {
                     }
-                    if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                        NoCheatPlusSupport.exemptPlayer(shooter);
-                    }
                     if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                        SpartanSupport.cancelNoSwing(shooter);
-                    }
-                    if (SupportedPlugins.AAC.isPluginLoaded()) {
-                        AACSupport.exemptPlayer(shooter);
+                        //SpartanSupport.cancelNoSwing(shooter);
                     }
                     for (LivingEntity entity : Methods.getNearbyLivingEntities(location, 2D, arrow.getArrow())) {
                         EntityDamageByEntityEvent damageByEntityEvent = new EntityDamageByEntityEvent(shooter, entity, DamageCause.CUSTOM, 5D);
                         ce.addIgnoredEvent(damageByEntityEvent);
                         ce.addIgnoredUUID(shooter.getUniqueId());
                         Bukkit.getPluginManager().callEvent(damageByEntityEvent);
-                        if (!damageByEntityEvent.isCancelled() && support.allowsPVP(entity.getLocation()) && !support.isFriendly(arrow.getShooter(), entity) && !arrow.getShooter().getUniqueId().equals(entity.getUniqueId())) {
+                        if (!damageByEntityEvent.isCancelled() && !support.isFriendly(arrow.getShooter(), entity) && !arrow.getShooter().getUniqueId().equals(entity.getUniqueId())) {
                             entity.damage(5D);
                         }
                         ce.removeIgnoredEvent(damageByEntityEvent);
                         ce.removeIgnoredUUID(shooter.getUniqueId());
-                    }
-                    if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                        NoCheatPlusSupport.unexemptPlayer(shooter);
-                    }
-                    if (SupportedPlugins.AAC.isPluginLoaded()) {
-                        AACSupport.unexemptPlayer(shooter);
                     }
                 }
                 //Removes the arrow from the list after 5 ticks. This is done because the onArrowDamage event needs the arrow in the list so it can check.
@@ -226,7 +211,7 @@ public class Bows implements Listener {
                 if (CEnchantments.DOCTOR.isActivated() && arrow.hasEnchantment(CEnchantments.DOCTOR) && support.isFriendly(arrow.getShooter(), e.getEntity())) {
                     int heal = 1 + arrow.getLevel(CEnchantments.DOCTOR);
                     //Uses getValue as if the player has health boost it is modifying the base so the value after the modifier is needed.
-                    double maxHealth = ce.useHealthAttributes() ? entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : entity.getMaxHealth();
+                    double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
                     if (entity.getHealth() < maxHealth) {
                         if (entity instanceof Player) {
                             EnchantmentUseEvent event = new EnchantmentUseEvent((Player) e.getEntity(), CEnchantments.DOCTOR, bow);
@@ -280,15 +265,12 @@ public class Bows implements Listener {
                             Player player = (Player) e.getEntity();
                             if (!event.isCancelled()) {
                                 if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                    SpartanSupport.cancelSpeed(player);
-                                    SpartanSupport.cancelFly(player);
-                                    SpartanSupport.cancelClip(player);
-                                    SpartanSupport.cancelNormalMovements(player);
-                                    SpartanSupport.cancelNoFall(player);
-                                    SpartanSupport.cancelJesus(player);
-                                }
-                                if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                    AACSupport.exemptPlayerTime(player);
+                                   // SpartanSupport.cancelSpeed(player);
+                                    //SpartanSupport.cancelFly(player);
+                                    //SpartanSupport.cancelClip(player);
+                                    //SpartanSupport.cancelNormalMovements(player);
+                                    //SpartanSupport.cancelNoFall(player);
+                                    //SpartanSupport.cancelJesus(player);
                                 }
                                 //Posable fix
                                 //https://github.com/SirBlobman/CombatLogX/commit/16377215a2a474fb94aa0f5ed8d1f681d9dfbb02#diff-b859c5538c8ab4c9a26fa9f968d5fea1
@@ -357,9 +339,8 @@ public class Bows implements Listener {
         return locations;
     }
     
-    private float randomSpred() {
+    private float randomSpread() {
         float spread = (float) .2;
         return -spread + (float) (Math.random() * (spread - -spread));
     }
-    
 }

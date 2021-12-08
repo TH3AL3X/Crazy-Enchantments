@@ -1,10 +1,9 @@
 package me.badbones69.crazyenchantments.enchantments;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.objects.CEnchantment;
-import me.badbones69.crazyenchantments.api.objects.ItemBuilder;
 import me.badbones69.crazyenchantments.multisupport.Version;
 import me.badbones69.crazyenchantments.multisupport.particles.ParticleEffect;
 import org.bukkit.*;
@@ -18,15 +17,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.*;
 
 public class Hoes implements Listener {
     
     private static List<Material> harvesterCrops;
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private List<Material> seedlings;
-    private Random random = new Random();
+    // private Random random = new Random();
     private Material soilBlock = ce.getMaterial("FARMLAND", "SOIL");
     private Material grassBlock = ce.getMaterial("GRASS_BLOCK", "GRASS");
     private HashMap<Material, Material> planterSeeds;
@@ -70,13 +68,13 @@ public class Hoes implements Listener {
             Block block = e.getClickedBlock();
             List<CEnchantment> enchantments = ce.getEnchantmentsOnItem(hoe);
             //Crop is not fully grown
-            if (CEnchantments.GREENTHUMB.isActivated() && enchantments.contains(CEnchantments.GREENTHUMB.getEnchantment()) &&
-            getSeedlings().contains(block.getType()) && !ce.getNMSSupport().isFullyGrown(block)) {
-                fullyGrowPlant(hoe, block, player);
-                if (player.getGameMode() != GameMode.CREATIVE) {//Take durability from players not in Creative
-                    Methods.removeDurability(hoe, player);
-                }
-            }
+            //if (CEnchantments.GREENTHUMB.isActivated() && enchantments.contains(CEnchantments.GREENTHUMB.getEnchantment())
+            //getSeedlings().contains(block.getType()) && !ce.getNMSSupport().isFullyGrown(block)) {
+            //    fullyGrowPlant(hoe, block, player);
+            //    if (player.getGameMode() != GameMode.CREATIVE) {//Take durability from players not in Creative
+            //        Methods.removeDurability(hoe, player);
+            //    }
+            //}
             if (block.getType() == grassBlock || block.getType() == Material.DIRT || block.getType() == Material.SOUL_SAND || block.getType() == soilBlock) {
                 boolean hasGreenThumb = CEnchantments.GREENTHUMB.isActivated() && enchantments.contains(CEnchantments.GREENTHUMB.getEnchantment());
                 if (enchantments.contains(CEnchantments.TILLER.getEnchantment())) {
@@ -87,7 +85,7 @@ public class Hoes implements Listener {
                         if (soil.getType() != Material.SOUL_SAND) {
                             for (Block water : getAreaBlocks(soil, 4)) {
                                 if (water.getType() == Material.WATER || water.getType() == ce.getMaterial("WATER", "STATIONARY_WATER")) {
-                                    ce.getNMSSupport().hydrateSoil(soil);
+                                    //ce.getNMSSupport().hydrateSoil(soil);
                                     break;
                                 }
                             }
@@ -127,6 +125,7 @@ public class Hoes implements Listener {
                 if (blocks.containsKey(player.getUniqueId()) && !enchantments.isEmpty() && CEnchantments.HARVESTER.isActivated() && enchantments.contains(CEnchantments.HARVESTER.getEnchantment())) {
                     BlockFace blockFace = blocks.get(player.getUniqueId()).get(plant);
                     blocks.remove(player.getUniqueId());
+                    /**
                     if (ce.getNMSSupport().isFullyGrown(plant)) {
                         boolean hasTelepathy = enchantments.contains(CEnchantments.TELEPATHY.getEnchantment());
                         for (Block crop : getAreaCrops(player, plant, blockFace)) {
@@ -170,11 +169,15 @@ public class Hoes implements Listener {
                 }
             }
         }
+                     **/
+                }
+            }
+        }
     }
     
     private void fullyGrowPlant(ItemStack hoe, Block block, Player player) {
         if (CEnchantments.GREENTHUMB.chanceSuccessful(hoe) || player.getGameMode() == GameMode.CREATIVE) {
-            ce.getNMSSupport().fullyGrowPlant(block);
+            //ce.getNMSSupport().fullyGrowPlant(block);
             if (Version.isNewer(Version.v1_8_R3)) {
                 block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(.5, .5, .5), 20, .25, .25, .25);
             } else {
@@ -298,8 +301,8 @@ public class Hoes implements Listener {
     
     private List<Block> getAreaCrops(Player player, Block block, BlockFace blockFace) {
         List<Block> blockList = new ArrayList<>();
-        for (Block crop : getAreaBlocks(block, blockFace, 0, 1)) {//Radius of 1 is 3x3
-            if (getHarvesterCrops().contains(crop.getType()) && ce.getNMSSupport().isFullyGrown(crop)) {
+        for (Block crop : getAreaBlocks(block, blockFace, 0, 1)) {//Radius of 1 is 3x3 //ce.getNMSSupport().isFullyGrown(crop)
+            if (getHarvesterCrops().contains(crop.getType())) {
                 BlockBreakEvent event = new BlockBreakEvent(crop, player);
                 ce.addIgnoredEvent(event);
                 Bukkit.getPluginManager().callEvent(event);

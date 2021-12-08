@@ -1,7 +1,8 @@
 package me.badbones69.crazyenchantments.enchantments;
 
+import com.cryptomorin.xseries.XMaterial;
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.events.EnchantmentUseEvent;
 import me.badbones69.crazyenchantments.api.objects.BlockProcessInfo;
@@ -10,7 +11,6 @@ import me.badbones69.crazyenchantments.api.objects.ItemBuilder;
 import me.badbones69.crazyenchantments.api.objects.TelepathyDrop;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
 import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.premiumhooks.spawners.EpicSpawnersSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -34,7 +34,7 @@ public class Tools implements Listener {
     
     private static Random random = new Random();
     private int potionTime = 5 * 20;
-    private static CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private static CrazyManager ce = CrazyManager.getInstance();
     private static List<String> ignoreBlockTypes = Arrays.asList("air", "shulker_box", "chest", "head", "skull");
     
     @EventHandler
@@ -65,13 +65,13 @@ public class Tools implements Listener {
             List<CEnchantment> enchantments = ce.getEnchantmentsOnItem(item);
             if (enchantments.contains(CEnchantments.TELEPATHY.getEnchantment()) && !enchantments.contains(CEnchantments.BLAST.getEnchantment())) {
                 //This checks if the player is breaking a crop with harvester one. The harvester enchantment will control what happens with telepathy here.
-                if ((Hoes.getHarvesterCrops().contains(block.getType()) && enchantments.contains(CEnchantments.HARVESTER.getEnchantment())) ||
+                //if ((Hoes.getHarvesterCrops().contains(block.getType()) && enchantments.contains(CEnchantments.HARVESTER.getEnchantment())))
                 //This checks if the block is a spawner and if so the spawner classes will take care of this.
                 //If Epic Spawners is enabled then telepathy will give the item from the API.
                 //Otherwise CE will ignore the spawner in this event.
-                (!SupportedPlugins.EPIC_SPAWNERS.isPluginLoaded() && block.getType() == ce.getMaterial("SPAWNER", "MOB_SPAWNER"))) {
-                    return;
-                }
+                //(!SupportedPlugins.EPIC_SPAWNERS.isPluginLoaded() && block.getType() == ce.getMaterial("SPAWNER", "MOB_SPAWNER"))) {
+                //    return;
+                //}
                 EnchantmentUseEvent event = new EnchantmentUseEvent(player, CEnchantments.TELEPATHY, item);
                 Bukkit.getPluginManager().callEvent(event);
                 if (!event.isCancelled()) {
@@ -112,8 +112,8 @@ public class Tools implements Listener {
         boolean hasExperience = enchantments.contains(CEnchantments.EXPERIENCE.getEnchantment());
         ItemBuilder itemDrop = null;
         int xp = 0;
-        if (processInfo.isSpawner() && SupportedPlugins.EPIC_SPAWNERS.isPluginLoaded()) {
-            itemDrop = ItemBuilder.convertItemStack(EpicSpawnersSupport.getSpawner(block));
+        if (processInfo.isSpawner()) {
+            //itemDrop = ItemBuilder.convertItemStack(EpicSpawnersSupport.getSpawner(block));
         } else {
             for (ItemStack drop : processInfo.getDrops()) {
                 if (itemDrop == null) {
@@ -160,8 +160,8 @@ public class Tools implements Listener {
         }
         if (block.getType() == Material.COCOA) {
             //Coco drops 2-3 beans.
-            itemDrop.setMaterial("COCOA_BEANS", "INK_SACK:3")
-            .setAmount(ce.getNMSSupport().isFullyGrown(block) ? random.nextInt(2) + 2 : 1);
+            //itemDrop.setMaterial("COCOA_BEANS", "INK_SACK:3")
+            //.setAmount(ce.getNMSSupport().isFullyGrown(block) ? random.nextInt(2) + 2 : 1);
         }
         //Changes ink sacks to lapis if on 1.12.2-
         if (Version.isOlder(Version.v1_13_R2) && itemDrop.getMaterial() == Material.matchMaterial("INK_SACK") && itemDrop.getDamage() != 3) {
@@ -231,34 +231,19 @@ public class Tools implements Listener {
     }
     
     private static boolean hasOreXP(Block block) {
-        switch (block.getType()) {
-            case COAL_ORE:
-            case DIAMOND_ORE:
-            case EMERALD_ORE:
-            case LAPIS_ORE:
-            case REDSTONE_ORE:
-                return true;
-            default:
-                return false;
-        }
+        return switch (block.getType()) {
+            case COAL_ORE, DIAMOND_ORE, EMERALD_ORE, LAPIS_ORE, REDSTONE_ORE -> true;
+            default -> false;
+        };
     }
     
     private static boolean isOre(Block block) {
-        if (block.getType() == ce.getMaterial("NETHER_QUARTZ_ORE", "QUARTZ_ORE")) {
-            return true;
-        }
-        switch (block.getType()) {
-            case COAL_ORE:
-            case IRON_ORE:
-            case GOLD_ORE:
-            case DIAMOND_ORE:
-            case EMERALD_ORE:
-            case LAPIS_ORE:
-            case REDSTONE_ORE:
-                return true;
-            default:
-                return false;
-        }
+        Material material = XMaterial.valueOf(block.getType().toString()).parseMaterial();
+        if (material == XMaterial.NETHER_QUARTZ_ORE.parseMaterial()) return true;
+        return switch (Objects.requireNonNull(material)) {
+            case COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE, EMERALD_ORE, LAPIS_ORE, REDSTONE_ORE, DEEPSLATE_COAL_ORE, DEEPSLATE_COPPER_ORE, DEEPSLATE_DIAMOND_ORE, DEEPSLATE_GOLD_ORE, DEEPSLATE_LAPIS_ORE -> true;
+            default -> false;
+        };
     }
     
     private static ItemStack getOreDrop(Block block) {
@@ -267,33 +252,16 @@ public class Tools implements Listener {
             dropItem.setMaterial(Material.QUARTZ);
         } else {
             switch (block.getType()) {
-                case COAL_ORE:
-                    dropItem.setMaterial(Material.COAL);
-                    break;
-                case IRON_ORE:
-                    dropItem.setMaterial(Material.IRON_INGOT);
-                    break;
-                case GOLD_ORE:
-                    dropItem.setMaterial(Material.GOLD_INGOT);
-                    break;
-                case DIAMOND_ORE:
-                    dropItem.setMaterial(Material.DIAMOND);
-                    break;
-                case EMERALD_ORE:
-                    dropItem.setMaterial(Material.EMERALD);
-                    break;
-                case LAPIS_ORE:
-                    dropItem.setMaterial("LAPIS_LAZULI", "INK_SACK:4");
-                    break;
-                case REDSTONE_ORE:
-                    dropItem.setMaterial(Material.REDSTONE);
-                    break;
-                default:
-                    dropItem.setMaterial(Material.AIR);
-                    break;
+                case COAL_ORE -> dropItem.setMaterial(Material.COAL);
+                case IRON_ORE -> dropItem.setMaterial(Material.IRON_INGOT);
+                case GOLD_ORE -> dropItem.setMaterial(Material.GOLD_INGOT);
+                case DIAMOND_ORE -> dropItem.setMaterial(Material.DIAMOND);
+                case EMERALD_ORE -> dropItem.setMaterial(Material.EMERALD);
+                case LAPIS_ORE -> dropItem.setMaterial("LAPIS_LAZULI", "INK_SACK:4");
+                case REDSTONE_ORE -> dropItem.setMaterial(Material.REDSTONE);
+                default -> dropItem.setMaterial(Material.AIR);
             }
         }
         return dropItem.build();
     }
-    
 }

@@ -1,14 +1,13 @@
 package me.badbones69.crazyenchantments.enchantments;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.events.EnchantmentUseEvent;
 import me.badbones69.crazyenchantments.api.objects.CEnchantment;
 import me.badbones69.crazyenchantments.api.objects.ItemBuilder;
 import me.badbones69.crazyenchantments.multisupport.Support;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class Axes implements Listener {
     
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private Support support = Support.getInstance();
     
     @EventHandler(priority = EventPriority.MONITOR)
@@ -62,7 +61,7 @@ public class Axes implements Listener {
                         if (!event.isCancelled()) {
                             int food = 2 * ce.getLevel(item, CEnchantments.FEEDME);
                             if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                SpartanSupport.cancelFastEat(damager);
+                                //SpartanSupport.cancelFastEat(damager);
                             }
                             if (damager.getFoodLevel() + food < 20) {
                                 damager.setFoodLevel((int) (damager.getSaturation() + food));
@@ -116,7 +115,7 @@ public class Axes implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        if (support.allowsPVP(player.getLocation()) && e.getEntity().getKiller() instanceof Player) {
+        if (e.getEntity().getKiller() != null) {
             Player damager = e.getEntity().getKiller();
             ItemStack item = Methods.getItemInHand(damager);
             if (ce.hasEnchantment(item, CEnchantments.DECAPITATION) && CEnchantments.DECAPITATION.chanceSuccessful(item)) {

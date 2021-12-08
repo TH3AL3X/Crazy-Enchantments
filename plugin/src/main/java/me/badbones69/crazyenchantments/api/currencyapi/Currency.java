@@ -47,5 +47,4 @@ public enum Currency {
     public String getName() {
         return name;
     }
-    
 }

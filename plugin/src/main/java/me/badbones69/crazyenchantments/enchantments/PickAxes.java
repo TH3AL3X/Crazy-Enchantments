@@ -1,7 +1,7 @@
 package me.badbones69.crazyenchantments.enchantments;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.events.BlastUseEvent;
@@ -12,9 +12,6 @@ import me.badbones69.crazyenchantments.api.objects.ItemBuilder;
 import me.badbones69.crazyenchantments.api.objects.TelepathyDrop;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
 import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
-import me.badbones69.crazyenchantments.multisupport.anticheats.NoCheatPlusSupport;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -42,7 +39,7 @@ import java.util.Random;
 public class PickAxes implements Listener {
     
     private Random random = new Random();
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private HashMap<Player, HashMap<Block, BlockFace>> blocks = new HashMap<>();
     
     @EventHandler(priority = EventPriority.MONITOR)
@@ -92,16 +89,10 @@ public class PickAxes implements Listener {
                         @Override
                         public void run() {
                             HashMap<ItemStack, Integer> drops = new HashMap<>();
-                            if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                                NoCheatPlusSupport.exemptPlayer(player);
-                            }
                             if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                SpartanSupport.cancelFastBreak(player);
-                                SpartanSupport.cancelNoSwing(player);
-                                SpartanSupport.cancelBlockReach(player);
-                            }
-                            if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                AACSupport.exemptPlayer(player);
+                                //SpartanSupport.cancelFastBreak(player);
+                                //SpartanSupport.cancelNoSwing(player);
+                                //SpartanSupport.cancelBlockReach(player);
                             }
                             int xp = 0;
                             boolean damage = Files.CONFIG.getFile().getBoolean("Settings.EnchantmentOptions.Blast-Full-Durability");
@@ -144,8 +135,7 @@ public class PickAxes implements Listener {
                                                 public void run() {
                                                     try {
                                                         block.getWorld().dropItem(block.getLocation(), finalDrop);
-                                                    } catch (IllegalArgumentException ignore) {
-                                                    }
+                                                    } catch (IllegalArgumentException ignore) {}
                                                 }
                                             }.runTask(ce.getPlugin());
                                         } else if (hasAutoSmelt && isOre) {
@@ -160,8 +150,7 @@ public class PickAxes implements Listener {
                                                     public void run() {
                                                         try {
                                                             block.getWorld().dropItem(block.getLocation(), finalDrop);
-                                                        } catch (IllegalArgumentException ignore) {
-                                                        }
+                                                        } catch (IllegalArgumentException ignore) {}
                                                     }
                                                 }.runTask(ce.getPlugin());
                                             }
@@ -173,8 +162,7 @@ public class PickAxes implements Listener {
                                                         public void run() {
                                                             try {
                                                                 block.getWorld().dropItem(block.getLocation(), drop);
-                                                            } catch (IllegalArgumentException ignore) {
-                                                            }
+                                                            } catch (IllegalArgumentException ignore) {}
                                                         }
                                                     }.runTask(ce.getPlugin());
                                                 }
@@ -205,12 +193,6 @@ public class PickAxes implements Listener {
                             if (!damage) {
                                 Methods.removeDurability(item, player);
                             }
-                            if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                                NoCheatPlusSupport.unexemptPlayer(player);
-                            }
-                            if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                AACSupport.unexemptPlayer(player);
-                            }
                             for (Entry<ItemStack, Integer> item : drops.entrySet()) {
                                 item.getKey().setAmount(item.getValue());
                                 if (Methods.isInventoryFull(player)) {
@@ -219,8 +201,7 @@ public class PickAxes implements Listener {
                                         public void run() {
                                             try {
                                                 player.getWorld().dropItem(player.getLocation(), item.getKey());
-                                            } catch (IllegalArgumentException ignore) {
-                                            }
+                                            } catch (IllegalArgumentException ignore) {}
                                         }
                                     }.runTask(ce.getPlugin());
                                 } else {

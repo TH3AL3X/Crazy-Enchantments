@@ -1,13 +1,12 @@
 package me.badbones69.crazyenchantments.processors;
 
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.events.AngelUseEvent;
 import me.badbones69.crazyenchantments.api.events.EnchantmentUseEvent;
 import me.badbones69.crazyenchantments.api.events.HellForgedUseEvent;
 import me.badbones69.crazyenchantments.multisupport.Support;
 import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -25,7 +24,7 @@ import java.util.Objects;
 public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
     
     private final Processor<Runnable> syncProcessor;
-    private final CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private final CrazyManager ce = CrazyManager.getInstance();
     private final Support support = Support.getInstance();
     
     public ArmorMoveProcessor() {
@@ -51,7 +50,7 @@ public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
                 int heal = 1;
                 if (CEnchantments.NURSERY.chanceSuccessful(armor)) {
                     //Uses getValue as if the player has health boost it is modifying the base so the value after the modifier is needed.
-                    double maxHealth = ce.useHealthAttributes() ? Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue() : player.getMaxHealth();
+                    double maxHealth = Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
                     if (maxHealth > player.getHealth() && player.getHealth() > 0) {
                         syncProcessor.add(() -> {
                             EnchantmentUseEvent event = new EnchantmentUseEvent(player, CEnchantments.NURSERY.getEnchantment(), armor);
@@ -76,7 +75,7 @@ public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
                     if (!event.isCancelled()) {
                         int foodIncress = 1;
                         if (Support.SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                            SpartanSupport.cancelFastEat(player);
+                            //SpartanSupport.cancelFastEat(player);
                         }
                         if (player.getFoodLevel() + foodIncress <= 20) {
                             player.setFoodLevel(player.getFoodLevel() + foodIncress);
@@ -88,7 +87,7 @@ public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
                 });
             }
             
-            if ((CEnchantments.ANGEL.isActivated() && ce.hasEnchantment(armor, CEnchantments.ANGEL) && Support.SupportedPlugins.FACTIONS_MASSIVE_CRAFT.isPluginLoaded()) || Support.SupportedPlugins.FACTIONS_UUID.isPluginLoaded()) {
+            if ((CEnchantments.ANGEL.isActivated() && ce.hasEnchantment(armor, CEnchantments.ANGEL))) {
                 final int radius = 4 + ce.getLevel(armor, CEnchantments.ANGEL);
                 syncProcessor.add(() -> {
                     for (Entity entity : player.getNearbyEntities(radius, radius, radius)) {
@@ -139,5 +138,4 @@ public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
             }
         }
     }
-    
 }

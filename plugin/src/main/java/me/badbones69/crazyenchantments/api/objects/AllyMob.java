@@ -1,6 +1,6 @@
 package me.badbones69.crazyenchantments.api.objects;
 
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.Messages;
 import me.badbones69.crazyenchantments.api.managers.AllyManager;
 import me.badbones69.crazyenchantments.multisupport.Support;
@@ -10,7 +10,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
 import java.util.HashMap;
 
 public class AllyMob {
@@ -20,7 +19,7 @@ public class AllyMob {
     private LivingEntity ally;
     private long spawnTime;
     private BukkitTask runnable;
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private Support support = Support.getInstance();
     private AllyMob instance;
     private static AllyManager allyManager = AllyManager.getInstance();
@@ -51,11 +50,11 @@ public class AllyMob {
         this.spawnTime = spawnTime;
         ally = (LivingEntity) location.getWorld().spawnEntity(location, type.entityType);
         support.noStack(ally);
-        if (ce.useHealthAttributes()) {
+        //if (ce.useHealthAttributes()) {
             ally.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(type.maxHealth);
-        } else {
-            ally.setMaxHealth(type.maxHealth);
-        }
+        //} else {
+        //    ally.setMaxHealth(type.maxHealth);
+        //}
         ally.setHealth(type.maxHealth);
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put("%Player%", owner.getName());
@@ -74,30 +73,30 @@ public class AllyMob {
     
     public void attackEnemy(LivingEntity enemy) {
         switch (ally.getType()) {
-            case WOLF:
+            case WOLF -> {
                 Wolf wolf = (Wolf) ally;
                 wolf.setTarget(enemy);
-                break;
-            case IRON_GOLEM:
+            }
+            case IRON_GOLEM -> {
                 IronGolem iron = (IronGolem) ally;
                 iron.setTarget(enemy);
-                break;
-            case ZOMBIE:
+            }
+            case ZOMBIE -> {
                 Zombie zom = (Zombie) ally;
                 zom.setTarget(enemy);
-                break;
-            case ENDERMITE:
+            }
+            case ENDERMITE -> {
                 Endermite mite = (Endermite) ally;
                 mite.setTarget(enemy);
-                break;
-            case SILVERFISH:
+            }
+            case SILVERFISH -> {
                 Silverfish sfish = (Silverfish) ally;
                 sfish.setTarget(enemy);
-                break;
-            case BEE:
+            }
+            case BEE -> {
                 Bee bee = (Bee) ally;
                 bee.setTarget(enemy);
-                break;
+            }
         }
     }
     
@@ -152,5 +151,4 @@ public class AllyMob {
             return maxHealth;
         }
     }
-    
 }

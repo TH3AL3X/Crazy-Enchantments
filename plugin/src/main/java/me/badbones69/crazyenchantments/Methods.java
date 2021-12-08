@@ -1,7 +1,7 @@
 package me.badbones69.crazyenchantments;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.enums.Messages;
 import me.badbones69.crazyenchantments.api.objects.ItemBuilder;
@@ -9,9 +9,7 @@ import me.badbones69.crazyenchantments.controllers.FireworkDamage;
 import me.badbones69.crazyenchantments.multisupport.Support;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
 import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
 import me.badbones69.crazyenchantments.multisupport.particles.ParticleEffect;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -32,7 +30,7 @@ import java.util.regex.Pattern;
 public class Methods {
     
     private static Random random = new Random();
-    private static CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private static CrazyManager ce = CrazyManager.getInstance();
     private static Support support = Support.getInstance();
     private static boolean isV1_13_Up = Version.isNewer(Version.v1_12_R1);
     public final static Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
@@ -517,6 +515,8 @@ public class Methods {
     }
     
     public static void explode(Entity player) {
+        Bukkit.getLogger().info("Boom!");
+        /*
         if (Version.isNewer(Version.v1_8_R3)) {
             player.getLocation().getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 200);
             player.getLocation().getWorld().spawnParticle(Particle.CLOUD, player.getLocation(), 30, .4F, .5F, .4F);
@@ -539,15 +539,12 @@ public class Methods {
                                 en.damage(5D);
                                 if (en instanceof Player) {
                                     if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                        SpartanSupport.cancelSpeed((Player) player);
-                                        SpartanSupport.cancelFly((Player) player);
-                                        SpartanSupport.cancelClip((Player) player);
-                                        SpartanSupport.cancelNormalMovements((Player) player);
-                                        SpartanSupport.cancelNoFall((Player) player);
-                                        SpartanSupport.cancelJesus((Player) player);
-                                    }
-                                    if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                        AACSupport.exemptPlayerTime((Player) player);
+                                        //SpartanSupport.cancelSpeed((Player) player);
+                                        //SpartanSupport.cancelFly((Player) player);
+                                        //SpartanSupport.cancelClip((Player) player);
+                                        //SpartanSupport.cancelNormalMovements((Player) player);
+                                        //SpartanSupport.cancelNoFall((Player) player);
+                                        //SpartanSupport.cancelJesus((Player) player);
                                     }
                                 }
                                 en.setVelocity(en.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(1).setY(.5));
@@ -557,9 +554,12 @@ public class Methods {
                 }
             }
         }
+        */
     }
     
     public static void explode(Entity player, Entity arrow) {
+        Bukkit.getLogger().info("Boom!");
+        /*
         if (Version.isNewer(Version.v1_8_R3)) {
             arrow.getLocation().getWorld().spawnParticle(Particle.FLAME, arrow.getLocation(), 200);
             arrow.getLocation().getWorld().spawnParticle(Particle.CLOUD, arrow.getLocation(), 30, .4F, .5F, .4F);
@@ -582,15 +582,12 @@ public class Methods {
                                 en.damage(5D);
                                 if (en instanceof Player) {
                                     if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                        SpartanSupport.cancelSpeed((Player) player);
-                                        SpartanSupport.cancelFly((Player) player);
-                                        SpartanSupport.cancelClip((Player) player);
-                                        SpartanSupport.cancelNormalMovements((Player) player);
-                                        SpartanSupport.cancelNoFall((Player) player);
-                                        SpartanSupport.cancelJesus((Player) player);
-                                    }
-                                    if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                        AACSupport.exemptPlayerTime((Player) player);
+                                        //SpartanSupport.cancelSpeed((Player) player);
+                                        //SpartanSupport.cancelFly((Player) player);
+                                        //SpartanSupport.cancelClip((Player) player);
+                                        //SpartanSupport.cancelNormalMovements((Player) player);
+                                        //SpartanSupport.cancelNoFall((Player) player);
+                                        //SpartanSupport.cancelJesus((Player) player);
                                     }
                                 }
                                 en.setVelocity(en.getLocation().toVector().subtract(arrow.getLocation().toVector()).normalize().multiply(1).setY(.5));
@@ -600,28 +597,27 @@ public class Methods {
                 }
             }
         }
+        */
     }
     
     public static ItemBuilder getRandomPaneColor() {
-        boolean newMaterial = ce.useNewMaterial();
         List<String> colors = Arrays.asList(
-        newMaterial ? "WHITE_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:0",// 0
-        newMaterial ? "ORANGE_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:1",// 1
-        newMaterial ? "MAGENTA_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:2",// 2
-        newMaterial ? "LIGHT_BLUE_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:3",// 3
-        newMaterial ? "YELLOW_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:4",// 4
-        newMaterial ? "LIME_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:5",// 5
-        newMaterial ? "PINK_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:6",// 6
-        newMaterial ? "GRAY_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:7",// 7
+        "WHITE_STAINED_GLASS_PANE",// 0
+        "ORANGE_STAINED_GLASS_PANE",// 1
+        "MAGENTA_STAINED_GLASS_PANE",// 2
+        "LIGHT_BLUE_STAINED_GLASS_PANE",// 3
+        "YELLOW_STAINED_GLASS_PANE",// 4
+        "LIME_STAINED_GLASS_PANE",// 5
+        "PINK_STAINED_GLASS_PANE",// 6
+        "GRAY_STAINED_GLASS_PANE",// 7
         //Skipped 8 due to it being basically invisible in a GUI.
-        newMaterial ? "CYAN_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:9",// 9
-        newMaterial ? "PURPLE_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:10",// 10
-        newMaterial ? "BLUE_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:11",// 11
-        newMaterial ? "BROWN_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:12",// 12
-        newMaterial ? "GREEN_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:13",// 13
-        newMaterial ? "RED_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:14",// 14
-        newMaterial ? "BLACK_STAINED_GLASS_PANE" : "STAINED_GLASS_PANE:15");// 15
+        "CYAN_STAINED_GLASS_PANE",// 9
+        "PURPLE_STAINED_GLASS_PANE",// 10
+        "BLUE_STAINED_GLASS_PANE",// 11
+        "BROWN_STAINED_GLASS_PANE",// 12
+        "GREEN_STAINED_GLASS_PANE",// 13
+        "RED_STAINED_GLASS_PANE",// 14
+        "BLACK_STAINED_GLASS_PANE");// 15
         return new ItemBuilder().setMaterial(colors.get(random.nextInt(colors.size())));
     }
-    
 }

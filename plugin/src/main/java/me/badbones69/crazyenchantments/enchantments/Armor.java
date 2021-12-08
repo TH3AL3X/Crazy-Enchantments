@@ -1,7 +1,7 @@
 package me.badbones69.crazyenchantments.enchantments;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.events.ArmorEquipEvent;
@@ -13,12 +13,9 @@ import me.badbones69.crazyenchantments.controllers.ProtectionCrystal;
 import me.badbones69.crazyenchantments.multisupport.Support;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
 import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
-import me.badbones69.crazyenchantments.multisupport.anticheats.NoCheatPlusSupport;
 import me.badbones69.crazyenchantments.multisupport.particles.ParticleEffect;
 import me.badbones69.crazyenchantments.processors.ArmorMoveProcessor;
 import me.badbones69.crazyenchantments.processors.Processor;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,7 +36,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -47,7 +43,7 @@ public class Armor implements Listener {
     
     private List<Player> fall = new ArrayList<>();
     private HashMap<Player, HashMap<CEnchantments, Calendar>> timer = new HashMap<>();
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private Support support = Support.getInstance();
     private final Processor<PlayerMoveEvent> armorMoveProcessor = new ArmorMoveProcessor();
     
@@ -165,9 +161,6 @@ public class Armor implements Listener {
                                     public void run() {
                                         EnchantmentUseEvent event = new EnchantmentUseEvent(player, CEnchantments.ROCKET.getEnchantment(), armor);
                                         Bukkit.getPluginManager().callEvent(event);
-                                        if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                            AACSupport.exemptPlayerTime(player);
-                                        }
                                         if (!event.isCancelled()) {
                                             new BukkitRunnable() {
                                                 @Override
@@ -200,7 +193,7 @@ public class Armor implements Listener {
                                         if (!event.isCancelled()) {
                                             double heal = ce.getLevel(armor, CEnchantments.ENLIGHTENED);
                                             //Uses getValue as if the player has health boost it is modifying the base so the value after the modifier is needed.
-                                            double maxHealth = ce.useHealthAttributes() ? player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : player.getMaxHealth();
+                                            double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
                                             if (player.getHealth() + heal < maxHealth) {
                                                 player.setHealth(player.getHealth() + heal);
                                             }
@@ -259,35 +252,19 @@ public class Armor implements Listener {
                                             int lightningSoundRange = Files.CONFIG.getFile().getInt("Settings.EnchantmentOptions.Lightning-Sound-Range", 160);
                                             try {
                                                 loc.getWorld().playSound(loc, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT", "ENTITY_LIGHTNING_IMPACT"), (float) lightningSoundRange / 16f, 1);
-                                            } catch (Exception ignore) {
-                                            }
-                                            if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                                                NoCheatPlusSupport.exemptPlayer(player);
-                                            }
-                                            if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                                SpartanSupport.cancelNoSwing(player);
-                                            }
-                                            if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                                AACSupport.exemptPlayer(player);
-                                            }
+                                            } catch (Exception ignore) {}
                                             for (LivingEntity en : Methods.getNearbyLivingEntities(loc, 2D, player)) {
                                                 EntityDamageByEntityEvent damageByEntityEvent = new EntityDamageByEntityEvent(player, en, DamageCause.CUSTOM, 5D);
                                                 ce.addIgnoredEvent(damageByEntityEvent);
                                                 ce.addIgnoredUUID(player.getUniqueId());
                                                 Bukkit.getPluginManager().callEvent(damageByEntityEvent);
-                                                if (!damageByEntityEvent.isCancelled() && support.allowsPVP(en.getLocation()) && !support.isFriendly(player, en)) {
-                                                    en.damage(5D);
-                                                }
+                                                //if (!damageByEntityEvent.isCancelled() && support.allowsPVP(en.getLocation()) && !support.isFriendly(player, en)) {
+                                                //    en.damage(5D);
+                                                //}
                                                 ce.removeIgnoredEvent(damageByEntityEvent);
                                                 ce.removeIgnoredUUID(player.getUniqueId());
                                             }
                                             damager.damage(5D);
-                                            if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                                                NoCheatPlusSupport.unexemptPlayer(player);
-                                            }
-                                            if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                                AACSupport.unexemptPlayer(player);
-                                            }
                                         }
                                     }
                                 }.runTask(ce.getPlugin());
@@ -295,8 +272,8 @@ public class Armor implements Listener {
                         }
                     }
                     if (damager instanceof Player) {
-                        for (ItemStack armor : Objects.requireNonNull(damager.getEquipment()).getArmorContents()) {
-                            if (ce.hasEnchantment(armor, CEnchantments.LEADERSHIP) && CEnchantments.LEADERSHIP.chanceSuccessful(armor) && (SupportedPlugins.FACTIONS_MASSIVE_CRAFT.isPluginLoaded() || SupportedPlugins.FACTIONS_UUID.isPluginLoaded())) {
+                        for (ItemStack armor : Objects.requireNonNull(damager.getEquipment()).getArmorContents()) { //(SupportedPlugins.FACTIONS_MASSIVE_CRAFT.isPluginLoaded() || SupportedPlugins.FACTIONS_UUID.isPluginLoaded()
+                            if (ce.hasEnchantment(armor, CEnchantments.LEADERSHIP) && CEnchantments.LEADERSHIP.chanceSuccessful(armor)) {
                                 int radius = 4 + ce.getLevel(armor, CEnchantments.LEADERSHIP);
                                 new BukkitRunnable() {
                                     @Override
@@ -337,12 +314,8 @@ public class Armor implements Listener {
                 if (!player.canSee(other) || !other.canSee(player)) return;
                 if (support.isVanished(player) || support.isVanished(other)) return;
                 CEnchantments enchant = e.getEnchantment();
-                int level = e.getLevel();
-                //Debug code for checking.
-//                System.out.println("PvP: " + support.allowsPVP(other.getLocation()));
-//                System.out.println("Enemy: " + !support.isFriendly(player, other));
-//                System.out.println("NoBypass: " + !Methods.hasPermission(other, "bypass.aura", false));
-                if (support.allowsPVP(other.getLocation()) && !support.isFriendly(player, other) && !Methods.hasPermission(other, "bypass.aura", false)) {
+                int level = e.getLevel(); //support.allowsPVP(other.getLocation())
+                if (!support.isFriendly(player, other) && !Methods.hasPermission(other, "bypass.aura", false)) {
                     Calendar cal = Calendar.getInstance();
                     HashMap<CEnchantments, Calendar> effect = new HashMap<>();
                     if (timer.containsKey(other)) {
@@ -428,7 +401,7 @@ public class Armor implements Listener {
             public void run() {
                 if (!(player.getKiller() instanceof Player)) return;
                 Player killer = player.getKiller();
-                if (!support.allowsPVP(player.getLocation())) return;
+                //if (!support.allowsPVP(player.getLocation())) return;
                 if (CEnchantments.SELFDESTRUCT.isActivated()) {
                     for (ItemStack item : Objects.requireNonNull(player.getEquipment()).getArmorContents()) {
                         if (ce.hasEnchantments(item) && ce.hasEnchantment(item, CEnchantments.SELFDESTRUCT.getEnchantment())) {

@@ -4,7 +4,6 @@ import me.badbones69.crazyenchantments.multisupport.Version;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,16 +22,15 @@ import java.util.Map.Entry;
  */
 public class FileManager {
     
-    private static FileManager instance = new FileManager();
+    private static final FileManager instance = new FileManager();
     private Plugin plugin;
-    private String prefix = "";
     private boolean log = false;
-    private Map<Files, File> files = new HashMap<>();
-    private List<String> homeFolders = new ArrayList<>();
-    private List<CustomFile> customFiles = new ArrayList<>();
-    private Map<String, String> jarHomeFolders = new HashMap<>();
-    private Map<String, String> autoGenerateFiles = new HashMap<>();
-    private Map<Files, FileConfiguration> configurations = new HashMap<>();
+    private final Map<Files, File> files = new HashMap<>();
+    private final List<String> homeFolders = new ArrayList<>();
+    private final List<CustomFile> customFiles = new ArrayList<>();
+    private final Map<String, String> jarHomeFolders = new HashMap<>();
+    private final Map<String, String> autoGenerateFiles = new HashMap<>();
+    private final Map<Files, FileConfiguration> configurations = new HashMap<>();
     
     public static FileManager getInstance() {
         return instance;
@@ -42,8 +40,7 @@ public class FileManager {
      * Sets up the plugin and loads all necessary files.
      * @param plugin The plugin this is getting loading for.
      */
-    public FileManager setup(Plugin plugin) {
-        prefix = "[" + plugin.getName() + "] ";
+    public void setup(Plugin plugin) {
         this.plugin = plugin;
         if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
         files.clear();
@@ -111,7 +108,6 @@ public class FileManager {
             }
             if (log) plugin.getLogger().info("Finished loading custom files.");
         }
-        return this;
     }
     
     /**
@@ -304,9 +300,9 @@ public class FileManager {
         SIGNS("signs.yml", "signs.yml"),
         TINKER("tinkerer.yml", "tinkerer.yml");
         
-        private String fileName;
-        private String fileJar;
-        private String fileLocation;
+        private final String fileName;
+        private final String fileJar;
+        private final String fileLocation;
         
         /**
          * The files that the server will try and load.
@@ -382,7 +378,7 @@ public class FileManager {
         /**
          * Overrides the loaded state file and loads the file systems file.
          */
-        public void relaodFile() {
+        public void reloadFile() {
             getInstance().reloadFile(this);
         }
         

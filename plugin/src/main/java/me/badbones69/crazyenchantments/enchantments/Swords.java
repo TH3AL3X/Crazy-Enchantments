@@ -1,7 +1,7 @@
 package me.badbones69.crazyenchantments.enchantments;
 
 import me.badbones69.crazyenchantments.Methods;
-import me.badbones69.crazyenchantments.api.CrazyEnchantments;
+import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.currencyapi.Currency;
 import me.badbones69.crazyenchantments.api.currencyapi.CurrencyAPI;
@@ -15,9 +15,6 @@ import me.badbones69.crazyenchantments.api.objects.CEnchantment;
 import me.badbones69.crazyenchantments.api.objects.ItemBuilder;
 import me.badbones69.crazyenchantments.multisupport.Support;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
-import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
-import me.badbones69.crazyenchantments.multisupport.anticheats.NoCheatPlusSupport;
-import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -46,7 +43,7 @@ import java.util.List;
 
 public class Swords implements Listener {
     
-    private CrazyEnchantments ce = CrazyEnchantments.getInstance();
+    private CrazyManager ce = CrazyManager.getInstance();
     private Support support = Support.getInstance();
     
     @EventHandler(priority = EventPriority.MONITOR)
@@ -213,7 +210,7 @@ public class Swords implements Listener {
                         if (!event.isCancelled()) {
                             int steal = ce.getLevel(item, CEnchantments.LIFESTEAL);
                             //Uses getValue as if the player has health boost it is modifying the base so the value after the modifier is needed.
-                            double maxHealth = ce.useHealthAttributes() ? damager.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : damager.getMaxHealth();
+                            double maxHealth = damager.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
                             if (damager.getHealth() + steal < maxHealth) {
                                 damager.setHealth(damager.getHealth() + steal);
                             }
@@ -227,7 +224,7 @@ public class Swords implements Listener {
                         Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled()) {
                             if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                SpartanSupport.cancelFastEat(damager);
+                                //SpartanSupport.cancelFastEat(damager);
                             }
                             if (damager.getSaturation() + (2 * ce.getLevel(item, CEnchantments.NUTRITION)) <= 20) {
                                 damager.setSaturation(damager.getSaturation() + (2 * ce.getLevel(item, CEnchantments.NUTRITION)));
@@ -242,7 +239,7 @@ public class Swords implements Listener {
                         Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled()) {
                             //Uses getValue as if the player has health boost it is modifying the base so the value after the modifier is needed.
-                            double maxHealth = ce.useHealthAttributes() ? damager.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : damager.getMaxHealth();
+                            double maxHealth = damager.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
                             if (damager.getHealth() + e.getDamage() / 2 < maxHealth) {
                                 damager.setHealth(damager.getHealth() + e.getDamage() / 2);
                             }
@@ -298,12 +295,12 @@ public class Swords implements Listener {
                         Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled()) {
                             if (e.getEntity() instanceof Player && SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                SpartanSupport.cancelSpeed((Player) e.getEntity());
-                                SpartanSupport.cancelFly((Player) e.getEntity());
-                                SpartanSupport.cancelClip((Player) e.getEntity());
-                                SpartanSupport.cancelNormalMovements((Player) e.getEntity());
-                                SpartanSupport.cancelNoFall((Player) e.getEntity());
-                                SpartanSupport.cancelJesus((Player) e.getEntity());
+                                //SpartanSupport.cancelSpeed((Player) e.getEntity());
+                                //SpartanSupport.cancelFly((Player) e.getEntity());
+                                //SpartanSupport.cancelClip((Player) e.getEntity());
+                                //SpartanSupport.cancelNormalMovements((Player) e.getEntity());
+                                //SpartanSupport.cancelNoFall((Player) e.getEntity());
+                                //SpartanSupport.cancelJesus((Player) e.getEntity());
                             }
                             e.getEntity().setVelocity(damager.getLocation().getDirection().multiply(2).setY(1.25));
                         }
@@ -317,23 +314,17 @@ public class Swords implements Listener {
                             int lightningSoundRange = Files.CONFIG.getFile().getInt("Settings.EnchantmentOptions.Lightning-Sound-Range", 160);
                             try {
                                 loc.getWorld().playSound(loc, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT", "ENTITY_LIGHTNING_IMPACT"), (float) lightningSoundRange / 16f, 1);
-                            } catch (Exception ignore) {
-                            }
-                            if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                                NoCheatPlusSupport.exemptPlayer(damager);
-                            }
+                            } catch (Exception ignore) {}
+
                             if (SupportedPlugins.SPARTAN.isPluginLoaded()) {
-                                SpartanSupport.cancelNoSwing(damager);
-                            }
-                            if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                AACSupport.exemptPlayer(damager);
+                                //SpartanSupport.cancelNoSwing(damager);
                             }
                             for (LivingEntity entity : Methods.getNearbyLivingEntities(loc, 2D, damager)) {
                                 EntityDamageByEntityEvent damageByEntityEvent = new EntityDamageByEntityEvent(damager, entity, DamageCause.CUSTOM, 5D);
                                 ce.addIgnoredEvent(damageByEntityEvent);
                                 ce.addIgnoredUUID(damager.getUniqueId());
                                 Bukkit.getPluginManager().callEvent(damageByEntityEvent);
-                                if (!damageByEntityEvent.isCancelled() && support.allowsPVP(entity.getLocation()) && !support.isFriendly(damager, entity)) {
+                                if (!damageByEntityEvent.isCancelled() && !support.isFriendly(damager, entity)) {
                                     entity.damage(5D);
                                 }
                                 ce.removeIgnoredEvent(damageByEntityEvent);
@@ -341,12 +332,6 @@ public class Swords implements Listener {
                             }
                             en.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3 * 20, 2));
                             en.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 3 * 20, 2));
-                            if (SupportedPlugins.NO_CHEAT_PLUS.isPluginLoaded()) {
-                                NoCheatPlusSupport.unexemptPlayer(damager);
-                            }
-                            if (SupportedPlugins.AAC.isPluginLoaded()) {
-                                AACSupport.unexemptPlayer(damager);
-                            }
                         }
                     }
                     if (enchantments.contains(CEnchantments.SLOWMO.getEnchantment()) && CEnchantments.SLOWMO.chanceSuccessful(item)) {
