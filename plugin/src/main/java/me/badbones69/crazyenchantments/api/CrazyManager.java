@@ -16,12 +16,8 @@ import me.badbones69.crazyenchantments.controllers.ScrollControl;
 import me.badbones69.crazyenchantments.enchantments.Boots;
 import me.badbones69.crazyenchantments.multisupport.*;
 import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
-import me.badbones69.crazyenchantments.multisupport.plotsquared.PlotSquared;
 import me.badbones69.crazyenchantments.multisupport.plotsquared.PlotSquaredVersion;
 import me.badbones69.crazyenchantments.multisupport.worldguard.WorldGuardVersion;
-import me.badbones69.crazyenchantments.multisupport.worldguard.WorldGuard_v6;
-import me.badbones69.crazyenchantments.multisupport.worldguard.WorldGuard_v7;
-import me.badbones69.premiumhooks.plotsquared.PlotSquaredLegacy;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -40,22 +36,18 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class CrazyEnchantments {
+public class CrazyManager {
     
-    private static CrazyEnchantments instance = new CrazyEnchantments();
+    private static CrazyManager instance = new CrazyManager();
     private Plugin plugin;
     private int rageMaxLevel;
     private boolean gkitzToggle;
     private boolean useUnsafeEnchantments;
-    private boolean useNewSounds = Version.isNewer(Version.v1_8_R3);
-    private boolean useHealthAttributes = Version.isNewer(Version.v1_8_R3);
-    private boolean useNewMaterial = Version.isNewer(Version.v1_12_R1);
     private boolean breakRageOnDamage;
     private boolean enchantStackedItems;
     private boolean maxEnchantmentCheck;
     private boolean checkVanillaLimit;
     private ItemBuilder enchantmentBook;
-    private NMSSupport nmsSupport;
     private Random random = new Random();
     private String whiteScrollProtectionName;
     private BlackSmithManager blackSmithManager;
@@ -75,7 +67,7 @@ public class CrazyEnchantments {
     private List<Event> ignoredEvents = new ArrayList<>();
     private List<UUID> ignoredUUIDs = new ArrayList<>();
     
-    public static CrazyEnchantments getInstance() {
+    public static CrazyManager getInstance() {
         return instance;
     }
     
@@ -97,7 +89,6 @@ public class CrazyEnchantments {
         infoMenuManager = InfoMenuManager.getInstance();
         infoMenuManager.load();
         CEnchantments.invalidateCachedEnchants();
-        nmsSupport = useNewMaterial ? new NMS_v1_13_Up() : new NMS_v1_12_2_Down();
         FileConfiguration config = Files.CONFIG.getFile();
         FileConfiguration gkit = Files.GKITZ.getFile();
         FileConfiguration enchants = Files.ENCHANTMENTS.getFile();
@@ -237,12 +228,6 @@ public class CrazyEnchantments {
         allyManager.load();
         //Starts the wings task
         Boots.startWings();
-        if (SupportedPlugins.WORLD_GUARD.isPluginLoaded() && SupportedPlugins.WORLD_EDIT.isPluginLoaded()) {
-            worldGuardVersion = useNewMaterial ? new WorldGuard_v7() : new WorldGuard_v6();
-        }
-        if (SupportedPlugins.PLOT_SQUARED.isPluginLoaded()) {
-            plotSquaredVersion = useNewMaterial ? new PlotSquared() : new PlotSquaredLegacy();
-        }
         Support.getInstance().load();
     }
     
@@ -345,14 +330,6 @@ public class CrazyEnchantments {
     }
     
     /**
-     * Get the NMS support class.
-     * @return NMS support class.
-     */
-    public NMSSupport getNMSSupport() {
-        return nmsSupport;
-    }
-    
-    /**
      * Get the blacksmith manager.
      * @return The instance of the blacksmith manager.
      */
@@ -425,27 +402,14 @@ public class CrazyEnchantments {
     }
     
     /**
-     * The material version needed to be used.
-     */
-    public boolean useNewMaterial() {
-        return useNewMaterial;
-    }
-    
-    /**
-     * @return true if needs to use health attributes and false if otherwise.
-     */
-    public boolean useHealthAttributes() {
-        return useHealthAttributes;
-    }
-    
-    /**
      * Get the correct sound for the version of minecraft.
      * @param newSound The sound from 1.9+
      * @param oldSound The sound from 1.8.8-
      * @return The Sound object of the current minecraft version.
      */
     public Sound getSound(String newSound, String oldSound) {
-        return Sound.valueOf(useNewSounds ? newSound : oldSound);
+        //return Sound.valueOf(useNewSounds ? newSound : oldSound);
+        return Sound.valueOf(newSound);
     }
     
     /**
@@ -455,7 +419,8 @@ public class CrazyEnchantments {
      * @return The Material object of the current minecraft version.
      */
     public Material getMaterial(String newMaterial, String oldMaterial) {
-        return Material.matchMaterial(useNewMaterial ? newMaterial : oldMaterial);
+        //return Material.matchMaterial(useNewMaterial ? newMaterial : oldMaterial);
+        return Material.matchMaterial(newMaterial);
     }
     
     /**
@@ -642,7 +607,7 @@ public class CrazyEnchantments {
             return new CEBook(enchantment, randomLevel(enchantment, category), 1, category);
         } catch (Exception e) {
             plugin.getLogger().info("The category " + category.getName() + " has no enchantments."
-            + " Please add enchantments to the category in the Enchantments.yml. If you do not wish to have the category feel free to delete it from the Config.yml.");
+            + " Please add enchantments to the category in the enchantments.yml. If you do not wish to have the category feel free to delete it from the Config.yml.");
             return null;
         }
     }
