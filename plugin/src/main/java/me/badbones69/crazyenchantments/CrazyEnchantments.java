@@ -27,6 +27,14 @@ public class CrazyEnchantments extends JavaPlugin implements Listener {
     private Armor armor;
     
     @Override
+    public void onLoad() {
+        if (Version.isOlder(Version.v1_16_R5)) {
+            getLogger().warning("This version is not supported. Please update to at least 1.16.5 or newer");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+    }
+    
+    @Override
     public void onEnable() {
         fileManager.logInfo(true).setup(this);
         ce.load();
