@@ -302,32 +302,32 @@ public class Hoes implements Listener {
         Location loc = block.getLocation();
         Location loc2 = block.getLocation();
         switch (blockFace) {
-            case SOUTH:
+            case SOUTH -> {
                 loc.add(-radius, radius, -depth);
                 loc2.add(radius, -radius, 0);
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 loc.add(depth, radius, -radius);
                 loc2.add(0, -radius, radius);
-                break;
-            case EAST:
+            }
+            case EAST -> {
                 loc.add(-depth, radius, radius);
                 loc2.add(0, -radius, -radius);
-                break;
-            case NORTH:
+            }
+            case NORTH -> {
                 loc.add(radius, radius, depth);
                 loc2.add(-radius, -radius, 0);
-                break;
-            case UP:
+            }
+            case UP -> {
                 loc.add(-radius, -depth, -radius);
                 loc2.add(radius, 0, radius);
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 loc.add(radius, depth, radius);
                 loc2.add(-radius, 0, -radius);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
         List<Block> blockList = new ArrayList<>();
         int topBlockX = (Math.max(loc.getBlockX(), loc2.getBlockX()));

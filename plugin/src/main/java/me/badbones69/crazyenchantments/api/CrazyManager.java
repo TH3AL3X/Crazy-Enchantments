@@ -94,8 +94,7 @@ public class CrazyManager {
         for (String id : Files.BLOCKLIST.getFile().getStringList("Block-List")) {
             try {
                 blockList.add(new ItemBuilder().setMaterial(id).getMaterial());
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         }
         whiteScrollProtectionName = Methods.color(config.getString("Settings.WhiteScroll.ProtectedName"));
         enchantmentBook = new ItemBuilder().setMaterial(config.getString("Settings.Enchantment-Book-Item"));
@@ -1316,32 +1315,19 @@ public class CrazyManager {
      * @return The integer as a roman numeral if between 1-10 other wise the number as a string.
      */
     public String convertLevelString(int i) {
-        switch (i) {
-            case 0:
-            case 1:
-                return "I";
-            case 2:
-                return "II";
-            case 3:
-                return "III";
-            case 4:
-                return "IV";
-            case 5:
-                return "V";
-            case 6:
-                return "VI";
-            case 7:
-                return "VII";
-            case 8:
-                return "VIII";
-            case 9:
-                return "IX";
-            case 10:
-                return "X";
-            default:
-                return i + "";
-            
-        }
+        return switch (i) {
+            case 0, 1 -> "I";
+            case 2 -> "II";
+            case 3 -> "III";
+            case 4 -> "IV";
+            case 5 -> "V";
+            case 6 -> "VI";
+            case 7 -> "VII";
+            case 8 -> "VIII";
+            case 9 -> "IX";
+            case 10 -> "X";
+            default -> i + "";
+        };
     }
     
     /**

@@ -119,10 +119,10 @@ public class AllyMob {
         SILVERFISH("Silverfish", "&7%player%'s Silverfish", EntityType.SILVERFISH, 10),
         BEE("Bee", "&e%player%'s Bee", EntityType.BEE, 10);
         
-        private String configName;
-        private String defaultName;
-        private EntityType entityType;
-        private int maxHealth;
+        private final String configName;
+        private final String defaultName;
+        private final EntityType entityType;
+        private final int maxHealth;
         
         private AllyType(String configName, String defaultName, EntityType entityType, int maxHealth) {
             this.configName = configName;

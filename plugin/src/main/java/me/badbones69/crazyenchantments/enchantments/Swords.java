@@ -445,15 +445,11 @@ public class Swords implements Listener {
     }
     
     private EquipmentSlot getSlot(int slot) {
-        switch (slot) {
-            case 1:
-                return EquipmentSlot.CHEST;
-            case 2:
-                return EquipmentSlot.LEGS;
-            case 3:
-                return EquipmentSlot.FEET;
-            default:
-                return EquipmentSlot.HEAD;
-        }
+        return switch (slot) {
+            case 1 -> EquipmentSlot.CHEST;
+            case 2 -> EquipmentSlot.LEGS;
+            case 3 -> EquipmentSlot.FEET;
+            default -> EquipmentSlot.HEAD;
+        };
     }
 }

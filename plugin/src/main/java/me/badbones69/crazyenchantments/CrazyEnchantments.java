@@ -23,9 +23,9 @@ public class CrazyEnchantments extends JavaPlugin implements Listener {
     
     private final CrazyManager ce = CrazyManager.getInstance();
     private final FileManager fileManager = FileManager.getInstance();
-    private boolean fixHealth;
+    // private boolean fixHealth;
     private Armor armor;
-    
+
     @Override
     public void onLoad() {
         if (Version.isOlder(Version.v1_16_R5)) {
@@ -36,12 +36,12 @@ public class CrazyEnchantments extends JavaPlugin implements Listener {
     
     @Override
     public void onEnable() {
+
         fileManager.logInfo(true).setup(this);
         ce.load();
         //SupportedPlugins.printHooks();
-        Methods.hasUpdate();
         CurrencyAPI.loadCurrency();
-        fixHealth = Files.CONFIG.getFile().getBoolean("Settings.Reset-Players-Max-Health");
+        // fixHealth = Files.CONFIG.getFile().getBoolean("Settings.Reset-Players-Max-Health");
         for (Player player : Bukkit.getOnlinePlayers()) {
             ce.loadCEPlayer(player);
             //if (fixHealth) {
@@ -89,7 +89,6 @@ public class CrazyEnchantments extends JavaPlugin implements Listener {
         pm.registerEvents(new Swords(), this);
         pm.registerEvents(new AllyEnchantments(), this);
         //==========================================================================\\
-        //new Metrics(this);// Starts up bStats
         new BukkitRunnable() {
             @Override
             public void run() {

@@ -164,8 +164,7 @@ public class Methods {
                     }
                 }
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         player.updateInventory();
     }
     
@@ -201,29 +200,6 @@ public class Methods {
         m.setLore(lore);
         item.setItemMeta(m);
         return item;
-    }
-    
-    public static void hasUpdate() {
-        hasUpdate(null);
-    }
-    
-    public static void hasUpdate(Player player) {
-        try {
-            HttpURLConnection c = (HttpURLConnection) new URL("http://www.spigotmc.org/api/general.php").openConnection();
-            c.setDoOutput(true);
-            c.setRequestMethod("POST");
-            c.getOutputStream().write(("key=98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4&resource=16470").getBytes(StandardCharsets.UTF_8));
-            String oldVersion = ce.getPlugin().getDescription().getVersion();
-            String newVersion = new BufferedReader(new InputStreamReader(c.getInputStream())).readLine().replaceAll("[a-zA-Z ]", "");
-            if (!newVersion.equals(oldVersion)) {
-                if (player != null) {
-                    player.sendMessage(Methods.getPrefix() + Methods.color("&cYour server is running &7v" + oldVersion + "&c and the newest is &7v" + newVersion + "&c."));
-                } else {
-                    Bukkit.getConsoleSender().sendMessage(Methods.getPrefix() + Methods.color("&cYour server is running &7v" + oldVersion + "&c and the newest is &7v" + newVersion + "&c."));
-                }
-            }
-        } catch (Exception ignored) {
-        }
     }
     
     public static int getPercent(String argument, ItemStack item, List<String> originalLore, int defaultValue) {
@@ -312,7 +288,7 @@ public class Methods {
         return entities;
     }
     
-    public static List<Entity> getNearbyEntitiess(Location loc, double radius, Entity entity) {
+    public static List<Entity> getNearbyEntities(Location loc, double radius, Entity entity) {
         return entity.getNearbyEntities(radius, radius, radius);
     }
     
@@ -335,42 +311,25 @@ public class Methods {
     }
     
     public static Color getColor(String color) {
-        switch (color.toUpperCase()) {
-            case "AQUA":
-                return Color.AQUA;
-            case "BLACK":
-                return Color.BLACK;
-            case "BLUE":
-                return Color.BLUE;
-            case "FUCHSIA":
-                return Color.FUCHSIA;
-            case "GRAY":
-                return Color.GRAY;
-            case "GREEN":
-                return Color.GREEN;
-            case "LIME":
-                return Color.LIME;
-            case "MAROON":
-                return Color.MAROON;
-            case "NAVY":
-                return Color.NAVY;
-            case "OLIVE":
-                return Color.OLIVE;
-            case "ORANGE":
-                return Color.ORANGE;
-            case "PURPLE":
-                return Color.PURPLE;
-            case "RED":
-                return Color.RED;
-            case "SILVER":
-                return Color.SILVER;
-            case "TEAL":
-                return Color.TEAL;
-            case "YELLOW":
-                return Color.YELLOW;
-            default:
-                return Color.WHITE;
-        }
+        return switch (color.toUpperCase()) {
+            case "AQUA" -> Color.AQUA;
+            case "BLACK" -> Color.BLACK;
+            case "BLUE" -> Color.BLUE;
+            case "FUCHSIA" -> Color.FUCHSIA;
+            case "GRAY" -> Color.GRAY;
+            case "GREEN" -> Color.GREEN;
+            case "LIME" -> Color.LIME;
+            case "MAROON" -> Color.MAROON;
+            case "NAVY" -> Color.NAVY;
+            case "OLIVE" -> Color.OLIVE;
+            case "ORANGE" -> Color.ORANGE;
+            case "PURPLE" -> Color.PURPLE;
+            case "RED" -> Color.RED;
+            case "SILVER" -> Color.SILVER;
+            case "TEAL" -> Color.TEAL;
+            case "YELLOW" -> Color.YELLOW;
+            default -> Color.WHITE;
+        };
     }
     
     public static String stripString(String string) {

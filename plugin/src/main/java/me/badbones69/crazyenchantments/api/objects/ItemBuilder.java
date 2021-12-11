@@ -26,6 +26,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static me.badbones69.crazyenchantments.Methods.color;
+
 /**
  *
  * The ItemBuilder is designed to make creating items easier by creating an easy to use Builder.
@@ -277,34 +279,14 @@ public class ItemBuilder implements Cloneable {
             this.material = material;
         }
         switch (this.material.name()) {
-            case "PLAYER_HEAD":
-            case "SKULL_ITEM":
-                this.isHead = true;
-                break;
-            case "TIPPED_ARROW":
-                this.isTippedArrow = true;
-                break;
-            case "POTION":
-            case "SPLASH_POTION":
-                this.isPotion = true;
-                break;
-            case "LEATHER_HELMET":
-            case "LEATHER_CHESTPLATE":
-            case "LEATHER_LEGGINGS":
-            case "LEATHER_BOOTS":
-                this.isLeatherArmor = true;
-                break;
-            case "BANNER":
-                this.isBanner = true;
-                break;
-            case "SHIELD":
-                this.isShield = true;
-                break;
+            case "PLAYER_HEAD", "SKULL_ITEM" -> this.isHead = true;
+            case "TIPPED_ARROW" -> this.isTippedArrow = true;
+            case "POTION", "SPLASH_POTION" -> this.isPotion = true;
+            case "LEATHER_HELMET", "LEATHER_CHESTPLATE", "LEATHER_LEGGINGS", "LEATHER_BOOTS" -> this.isLeatherArmor = true;
+            case "BANNER" -> this.isBanner = true;
+            case "SHIELD" -> this.isShield = true;
         }
-        //1.13+ added different banner names and so this is quicker then listing every banner color.
-        if (this.material.name().contains("BANNER")) {
-            this.isBanner = true;
-        }
+        if (this.material.name().contains("BANNER")) {this.isBanner = true;}
         return this;
     }
     

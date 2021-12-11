@@ -306,32 +306,32 @@ public class PickAxes implements Listener {
     private List<Block> getBlocks(Location loc, BlockFace blockFace, Integer depth) {
         Location loc2 = loc.clone();
         switch (blockFace) {
-            case SOUTH:
+            case SOUTH -> {
                 loc.add(-1, 1, -depth);
                 loc2.add(1, -1, 0);
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 loc.add(depth, 1, -1);
                 loc2.add(0, -1, 1);
-                break;
-            case EAST:
+            }
+            case EAST -> {
                 loc.add(-depth, 1, 1);
                 loc2.add(0, -1, -1);
-                break;
-            case NORTH:
+            }
+            case NORTH -> {
                 loc.add(1, 1, depth);
                 loc2.add(-1, -1, 0);
-                break;
-            case UP:
+            }
+            case UP -> {
                 loc.add(-1, -depth, -1);
                 loc2.add(1, 0, 1);
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 loc.add(1, depth, 1);
                 loc2.add(-1, 0, -1);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
         List<Block> blockList = new ArrayList<>();
         int topBlockX = (Math.max(loc.getBlockX(), loc2.getBlockX()));
