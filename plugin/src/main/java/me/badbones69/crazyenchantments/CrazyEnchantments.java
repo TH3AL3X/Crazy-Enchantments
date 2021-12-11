@@ -122,14 +122,6 @@ public class CrazyEnchantments extends JavaPlugin implements Listener {
         //        player.setMaxHealth(20);
         //    }
         //}
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (player.isOp()) {
-                    Methods.hasUpdate(player);
-                }
-            }
-        }.runTaskLaterAsynchronously(this, 20);
     }
     
     @EventHandler
