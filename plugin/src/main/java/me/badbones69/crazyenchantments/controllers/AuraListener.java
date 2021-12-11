@@ -101,5 +101,4 @@ public class AuraListener implements Listener {
         }
         return players;
     }
-    
 }

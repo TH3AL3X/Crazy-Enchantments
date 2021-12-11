@@ -129,5 +129,4 @@ public class GkitzCommand implements CommandExecutor {
     private boolean hasPermission(CommandSender sender, String permission) {
         return Methods.hasPermission(sender, permission, true);
     }
-    
 }

@@ -104,5 +104,4 @@ public class ShopManager {
     public boolean isEnchantmentTableShop() {
         return enchantmentTableShop;
     }
-    
 }

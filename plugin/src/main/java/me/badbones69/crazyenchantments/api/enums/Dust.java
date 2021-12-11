@@ -78,5 +78,4 @@ public enum Dust {
         .addLorePlaceholder("%Percent%", percent)
         .setAmount(amount).build();
     }
-    
 }

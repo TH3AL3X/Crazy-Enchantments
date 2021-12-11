@@ -161,5 +161,4 @@ public class ProtectionCrystal implements Listener {
             e.setCancelled(true);
         }
     }
-    
 }

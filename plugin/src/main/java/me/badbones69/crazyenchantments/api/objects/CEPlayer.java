@@ -347,5 +347,4 @@ public class CEPlayer {
     public void setRageTask(BukkitTask rageTask) {
         this.rageTask = rageTask;
     }
-    
 }

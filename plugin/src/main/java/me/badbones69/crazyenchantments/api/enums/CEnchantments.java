@@ -314,5 +314,4 @@ public enum CEnchantments {
     public boolean hasChanceSystem() {
         return hasChanceSystem;
     }
-    
 }

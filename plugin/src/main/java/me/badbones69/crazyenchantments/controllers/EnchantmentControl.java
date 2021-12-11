@@ -204,5 +204,4 @@ public class EnchantmentControl implements Listener {
             }.runTaskLater(ce.getPlugin(), 5);
         }
     }
-    
 }

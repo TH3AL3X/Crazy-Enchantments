@@ -346,5 +346,4 @@ public class ArmorListener implements Listener {
         blocks.add("SHULKER_BOX");
         return blocks;
     }
-    
 }

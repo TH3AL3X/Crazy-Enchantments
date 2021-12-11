@@ -110,5 +110,4 @@ public class AllyManager {
     public static AllyManager getInstance() {
         return instance;
     }
-    
 }

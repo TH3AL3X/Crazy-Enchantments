@@ -386,5 +386,4 @@ public class PickAxes implements Listener {
     private int getRandomNumber(int range) {
         return range > 1 ? random.nextInt(range > 0 ? (range) : 1) : 1;
     }
-    
 }

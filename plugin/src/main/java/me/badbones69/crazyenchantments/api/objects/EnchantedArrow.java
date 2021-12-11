@@ -55,5 +55,4 @@ public class EnchantedArrow {
     public boolean hasEnchantment(CEnchantments enchantment) {
         return enchantments.contains(enchantment.getEnchantment());
     }
-    
 }

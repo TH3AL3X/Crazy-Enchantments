@@ -1662,6 +1662,5 @@ public enum ParticleEffect {
             }
             
         }
-        
     }
 }

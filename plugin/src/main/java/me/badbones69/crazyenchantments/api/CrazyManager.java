@@ -1458,5 +1458,4 @@ public class CrazyManager {
         }
         return colors;
     }
-    
 }

@@ -166,5 +166,4 @@ public class AllyEnchantments implements Listener {
         }
         return false;
     }
-    
 }

@@ -246,5 +246,4 @@ public class DustControl implements Listener {
         }
         return dusts.get(random.nextInt(dusts.size()));
     }
-    
 }

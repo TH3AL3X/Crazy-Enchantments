@@ -251,5 +251,4 @@ public class SignControl implements Listener {
         .replace("%cost%", category.getCost() + "").replace("%Cost%", category.getCost() + "")
         .replace("%xp%", category.getCost() + "").replace("%XP%", category.getCost() + ""));
     }
-    
 }

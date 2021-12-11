@@ -33,5 +33,4 @@ public class BlackSmithCompare {
     public Map<CEnchantment, Integer> getNewCEnchantments() {
         return newCEnchantments;
     }
-    
 }

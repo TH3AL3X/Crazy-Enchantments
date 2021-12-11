@@ -111,5 +111,4 @@ public class InfoMenuManager {
         inventory.setItem(slots - 1, backRight);
         player.openInventory(inventory);
     }
-    
 }

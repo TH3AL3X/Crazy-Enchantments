@@ -174,5 +174,4 @@ public class BlackSmith implements Listener {
     private void playSound(Player player, Sound sound) {
         player.playSound(player.getLocation(), sound, 1, 1);
     }
-    
 }

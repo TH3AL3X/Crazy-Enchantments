@@ -456,5 +456,4 @@ public class Swords implements Listener {
                 return EquipmentSlot.HEAD;
         }
     }
-    
 }

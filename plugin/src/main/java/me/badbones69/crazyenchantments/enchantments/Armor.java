@@ -449,5 +449,4 @@ public class Armor implements Listener {
             e.setCancelled(true);
         }
     }
-    
 }

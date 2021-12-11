@@ -144,7 +144,5 @@ public enum ShopOption {
         public Currency getCurrency() {
             return currency;
         }
-        
     }
-    
 }

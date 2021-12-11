@@ -183,5 +183,4 @@ public class CETab implements TabCompleter {
     private boolean hasPermission(CommandSender sender, String node) {
         return sender.hasPermission("crazyenchantments." + node) || sender.hasPermission("crazyenchantments.admin");
     }
-    
 }

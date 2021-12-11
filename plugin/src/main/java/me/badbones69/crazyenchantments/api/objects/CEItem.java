@@ -78,5 +78,4 @@ public class CEItem {
         ce.addEnchantments(item, cEnchantments);
         return item;
     }
-    
 }

@@ -160,5 +160,4 @@ public class Boots implements Listener {
         }
         return players;
     }
-    
 }

@@ -125,5 +125,4 @@ public class Category {
         enchantmentList.remove(enchantment);
         enabledEnchantments.remove(enchantment);
     }
-    
 }

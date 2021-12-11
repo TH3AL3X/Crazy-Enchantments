@@ -36,5 +36,4 @@ public enum ArmorType {
     public int getSlot() {
         return slot;
     }
-    
 }

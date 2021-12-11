@@ -67,5 +67,4 @@ public enum Scrolls {
     public ItemStack getScroll(int amount) {
         return itemBuilderScrolls.get(this).setAmount(amount).build();
     }
-    
 }

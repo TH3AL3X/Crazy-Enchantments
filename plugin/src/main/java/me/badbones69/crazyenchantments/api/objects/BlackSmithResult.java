@@ -90,5 +90,4 @@ public class BlackSmithResult {
     public ItemStack getResultItem() {
         return resultItem;
     }
-    
 }

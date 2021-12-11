@@ -228,8 +228,6 @@ public class Scrambler implements Listener {
         try {
             roll.get(player).cancel();
             roll.remove(player);
-        } catch (Exception ignore) {
-        }
+        } catch (Exception ignore) {}
     }
-    
 }

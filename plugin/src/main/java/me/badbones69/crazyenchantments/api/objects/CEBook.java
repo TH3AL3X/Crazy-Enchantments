@@ -232,5 +232,4 @@ public class CEBook {
     private int percentPick(int max, int min) {
         return max == min ? max : min + new Random().nextInt(max - min);
     }
-    
 }

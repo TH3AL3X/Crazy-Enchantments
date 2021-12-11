@@ -576,5 +576,4 @@ public final class ReflectionUtils {
             return reference;
         }
     }
-    
 }

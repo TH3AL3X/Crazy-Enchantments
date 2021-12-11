@@ -69,5 +69,4 @@ public class EnchantmentType {
     public void removeEnchantment(CEnchantment enchantment) {
         enchantments.remove(enchantment);
     }
-    
 }
