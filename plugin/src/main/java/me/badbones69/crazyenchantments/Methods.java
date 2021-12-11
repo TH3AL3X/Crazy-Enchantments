@@ -30,19 +30,15 @@ public class Methods {
     private static Random random = new Random();
     private static CrazyManager ce = CrazyManager.getInstance();
     private static Support support = Support.getInstance();
-    private static boolean isV1_13_Up = Version.isNewer(Version.v1_12_R1);
     public final static Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
     
     public static String color(String message) {
-        if (Version.isNewer(Version.v1_15_R1)) {
-            Matcher matcher = HEX_PATTERN.matcher(message);
-            StringBuffer buffer = new StringBuffer();
-            while (matcher.find()) {
-                matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
-            }
-            return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+        Matcher matcher = HEX_PATTERN.matcher(message);
+        StringBuilder buffer = new StringBuilder();
+        while (matcher.find()) {
+            matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
         }
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
     }
     
     public static String removeColor(String msg) {
@@ -104,19 +100,11 @@ public class Methods {
     }
     
     public static ItemStack getItemInHand(Player player) {
-        if (Version.isNewer(Version.v1_8_R3)) {
-            return player.getInventory().getItemInMainHand();
-        } else {
-            return player.getItemInHand();
-        }
+        return player.getInventory().getItemInMainHand();
     }
     
     public static void setItemInHand(Player player, ItemStack item) {
-        if (Version.isNewer(Version.v1_8_R3)) {
-            player.getInventory().setItemInMainHand(item);
-        } else {
-            player.setItemInHand(item);
-        }
+        player.getInventory().setItemInMainHand(item);
     }
     
     public static String getPrefix() {
@@ -394,29 +382,14 @@ public class Methods {
             HashMap<String, String> enchantments = getEnchantments();
             enchantmentName = stripString(enchantmentName);
             for (Enchantment enchantment : Enchantment.values()) {
-                if (isV1_13_Up) {
-                    //MC 1.13+ has the correct names.
                     if (stripString(enchantment.getKey().getKey()).equalsIgnoreCase(enchantmentName)) {
                         return enchantment;
                     }
-                } else {
-                    if (stripString(enchantment.getName()).equalsIgnoreCase(enchantmentName) ||
-                    (enchantments.get(enchantment.getName()) != null &&
-                    stripString(enchantments.get(enchantment.getName())).equalsIgnoreCase(enchantmentName))) {
-                        return enchantment;
-                    }
-                }
             }
-        } catch (Exception ignore) {
-        }
+        } catch (Exception ignore) {}
         return null;
     }
-    
-    /**
-     * Verify the ItemStack has a lore. This checks to make sure everything isn't null because recent minecraft updates cause NPEs.
-     * @param item Itemstack you are checking.
-     * @return True if the item has a lore and no null issues.
-     */
+
     public static boolean verifyItemLore(ItemStack item) {
         return item != null && item.getItemMeta() != null && item.hasItemMeta() && item.getItemMeta().getLore() != null && item.getItemMeta().hasLore();
     }

@@ -19,12 +19,11 @@ import java.util.List;
 
 public class CETab implements TabCompleter {
     
-    private CrazyManager ce = CrazyManager.getInstance();
-    private boolean isV1_13_Up = Version.isNewer(Version.v1_12_R1);
+    private final CrazyManager ce = CrazyManager.getInstance();
     
     @Override
-    @SuppressWarnings({"deprecation", "squid:CallToDeprecatedMethod"})
-    public List<String> onTabComplete(CommandSender sender, Command command, String commandLable, String[] args) {
+    @SuppressWarnings({"squid:CallToDeprecatedMethod"})
+    public List<String> onTabComplete(CommandSender sender, Command command, String commandLabel, String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {// /ce
             if (hasPermission(sender, "access")) completions.add("help");
