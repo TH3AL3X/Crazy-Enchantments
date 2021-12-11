@@ -2,14 +2,11 @@ package me.badbones69.crazyenchantments.multisupport;
 
 import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.managers.WingsManager;
-import me.badbones69.crazyenchantments.multisupport.plotsquared.PlotSquaredVersion;
-import me.badbones69.crazyenchantments.multisupport.worldguard.WorldGuardVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-
 import java.util.HashMap;
 import java.util.Map;
 

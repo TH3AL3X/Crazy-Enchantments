@@ -4,8 +4,6 @@ import me.badbones69.crazyenchantments.Methods;
 import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.objects.CEnchantment;
-import me.badbones69.crazyenchantments.multisupport.Version;
-import me.badbones69.crazyenchantments.multisupport.particles.ParticleEffect;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

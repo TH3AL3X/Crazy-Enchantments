@@ -6,7 +6,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Base64;
@@ -215,7 +214,6 @@ public class SkullCreator {
         try {
             Material.valueOf("PLAYER_HEAD");
             return true;
-            
         } catch (IllegalArgumentException e) { // If PLAYER_HEAD doesn't exist
             return false;
         }

@@ -34,7 +34,7 @@ public class Tinkerer implements Listener {
     
     public static void openTinker(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, Methods.color(Files.TINKER.getFile().getString("Settings.GUIName")));
-        inv.setItem(0, new ItemBuilder().setMaterial("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE:14")
+        inv.setItem(0, new ItemBuilder().setMaterial("RED_STAINED_GLASS_PANE")
         .setName(Files.TINKER.getFile().getString("Settings.TradeButton"))
         .setLore(Files.TINKER.getFile().getStringList("Settings.TradeButton-Lore")).build());
         List<Integer> slots = new ArrayList<>();
@@ -45,9 +45,9 @@ public class Tinkerer implements Listener {
         slots.add(40);
         slots.add(49);
         for (int i : slots) {
-            inv.setItem(i, new ItemBuilder().setMaterial("WHITE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE:0").setName(" ").build());
+            inv.setItem(i, new ItemBuilder().setMaterial("WHITE_STAINED_GLASS_PANE").setName(" ").build());
         }
-        inv.setItem(8, new ItemBuilder().setMaterial("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE:14")
+        inv.setItem(8, new ItemBuilder().setMaterial("RED_STAINED_GLASS_PANE")
         .setName(Files.TINKER.getFile().getString("Settings.TradeButton"))
         .setLore(Files.TINKER.getFile().getStringList("Settings.TradeButton-Lore")).build());
         player.openInventory(inv);

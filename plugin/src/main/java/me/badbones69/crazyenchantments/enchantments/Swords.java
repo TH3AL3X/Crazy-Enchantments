@@ -392,7 +392,7 @@ public class Swords implements Listener {
                 EnchantmentUseEvent event = new EnchantmentUseEvent(damager, CEnchantments.HEADLESS, item);
                 Bukkit.getPluginManager().callEvent(event);
                 if (!event.isCancelled()) {
-                    ItemStack head = new ItemBuilder().setMaterial("PLAYER_HEAD", "397:3").setPlayer(player.getName()).build();
+                    ItemStack head = new ItemBuilder().setMaterial("PLAYER_HEAD").setPlayer(player.getName()).build();
                     e.getDrops().add(head);
                 }
             }
@@ -405,7 +405,6 @@ public class Swords implements Listener {
                             ally.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5 * 20, 1));
                             ally.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 5 * 20, 0));
                             ally.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 5 * 20, 1));
-                            
                         }
                     }
                 }
