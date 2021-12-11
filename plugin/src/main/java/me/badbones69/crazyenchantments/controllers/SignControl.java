@@ -26,7 +26,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
