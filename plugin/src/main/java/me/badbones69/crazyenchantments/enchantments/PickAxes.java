@@ -256,11 +256,7 @@ public class PickAxes implements Listener {
                             orb.setExperience(Methods.percentPick(7, 3) * power);
                         }
                     }
-                    if (Version.isNewer(Version.v1_11_R1)) {
-                        e.setDropItems(false);
-                    } else {
-                        block.setType(Material.AIR);
-                    }
+                    e.setDropItems(false);
                     Methods.removeDurability(item, player);
                 }
             }
@@ -287,11 +283,7 @@ public class PickAxes implements Listener {
                         }
                     }
                 }
-                if (Version.isNewer(Version.v1_11_R1)) {
-                    e.setDropItems(false);
-                } else {
-                    block.setType(Material.AIR);
-                }
+                e.setDropItems(false);
                 Methods.removeDurability(item, player);
             }
         }
@@ -359,21 +351,13 @@ public class PickAxes implements Listener {
     }
     
     private boolean isOre(Material material) {
-        if (material == ce.getMaterial("NETHER_QUARTZ_ORE", "QUARTZ_ORE")) {
+        if (material == ce.getMaterial("NETHER_QUARTZ_ORE")) {
             return true;
         }
-        switch (material) {
-            case COAL_ORE:
-            case IRON_ORE:
-            case GOLD_ORE:
-            case DIAMOND_ORE:
-            case EMERALD_ORE:
-            case LAPIS_ORE:
-            case REDSTONE_ORE:
-                return true;
-            default:
-                return false;
-        }
+        return switch (material) {
+            case COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE, EMERALD_ORE, LAPIS_ORE, REDSTONE_ORE -> true;
+            default -> false;
+        };
     }
     
     private ItemStack getOreDrop(Material material) {
@@ -382,34 +366,18 @@ public class PickAxes implements Listener {
     
     private ItemStack getOreDrop(Material material, int amount) {
         ItemBuilder dropItem = new ItemBuilder().setAmount(amount);
-        if (material == ce.getMaterial("NETHER_QUARTZ_ORE", "QUARTZ_ORE")) {
+        if (material == ce.getMaterial("NETHER_QUARTZ_ORE")) {
             dropItem.setMaterial(Material.QUARTZ);
         } else {
             switch (material) {
-                case COAL_ORE:
-                    dropItem.setMaterial(Material.COAL);
-                    break;
-                case IRON_ORE:
-                    dropItem.setMaterial(Material.IRON_INGOT);
-                    break;
-                case GOLD_ORE:
-                    dropItem.setMaterial(Material.GOLD_INGOT);
-                    break;
-                case DIAMOND_ORE:
-                    dropItem.setMaterial(Material.DIAMOND);
-                    break;
-                case EMERALD_ORE:
-                    dropItem.setMaterial(Material.EMERALD);
-                    break;
-                case LAPIS_ORE:
-                    dropItem.setMaterial("LAPIS_LAZULI", "INK_SACK:4");
-                    break;
-                case REDSTONE_ORE:
-                    dropItem.setMaterial(Material.REDSTONE);
-                    break;
-                default:
-                    dropItem.setMaterial(Material.AIR);
-                    break;
+                case COAL_ORE -> dropItem.setMaterial(Material.COAL);
+                case IRON_ORE -> dropItem.setMaterial(Material.IRON_INGOT);
+                case GOLD_ORE -> dropItem.setMaterial(Material.GOLD_INGOT);
+                case DIAMOND_ORE -> dropItem.setMaterial(Material.DIAMOND);
+                case EMERALD_ORE -> dropItem.setMaterial(Material.EMERALD);
+                case LAPIS_ORE -> dropItem.setMaterial(Material.LAPIS_LAZULI);
+                case REDSTONE_ORE -> dropItem.setMaterial(Material.REDSTONE);
+                default -> dropItem.setMaterial(Material.AIR);
             }
         }
         return dropItem.build();

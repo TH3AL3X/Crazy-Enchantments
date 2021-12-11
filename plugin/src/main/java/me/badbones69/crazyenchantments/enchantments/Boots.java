@@ -38,11 +38,7 @@ public class Boots implements Listener {
                     for (Player player : manager.getFlyingPlayers()) {
                         if (player.isFlying()) {
                             Location location = player.getLocation().subtract(0, .25, 0);
-                            if (Version.isNewer(Version.v1_8_R3)) {
-                                player.getWorld().spawnParticle(Particle.CLOUD, location, 100, .25, 0, .25, 0);
-                            } else {
-                                ParticleEffect.CLOUD.display(.25F, 0, .25F, 0, 100, location, 100);
-                            }
+                            player.getWorld().spawnParticle(Particle.CLOUD, location, 100, .25, 0, .25, 0);
                         }
                     }
                 }

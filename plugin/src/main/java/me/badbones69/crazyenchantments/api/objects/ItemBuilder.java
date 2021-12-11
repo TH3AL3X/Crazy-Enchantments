@@ -197,7 +197,7 @@ public class ItemBuilder implements Cloneable {
                 }
             }
         } catch (Exception e) {
-            itemBuilder.setMaterial("RED_TERRACOTTA", "STAINED_CLAY:14").setName("&c&lERROR").setLore(Arrays.asList("&cThere is an error", "&cFor : &c" + (placeHolder != null ? placeHolder : "")));
+            itemBuilder.setMaterial("RED_TERRACOTTA").setName("&c&lERROR").setLore(Arrays.asList("&cThere is an error", "&cFor : &c" + (placeHolder != null ? placeHolder : "")));
             e.printStackTrace();
         }
         return itemBuilder;
@@ -275,17 +275,6 @@ public class ItemBuilder implements Cloneable {
         Material material = Material.matchMaterial(materialString);
         if (material != null) {// Sets the material.
             this.material = material;
-            //1.9-1.12.2
-            if (Version.isNewer(Version.v1_8_R3) && Version.isOlder(Version.v1_13_R2)) {
-                if (material == Material.matchMaterial("MONSTER_EGG")) {
-                    try {
-                        this.entityType = EntityType.fromId(damage) != null ? EntityType.fromId(damage) : EntityType.valueOf(metaDataString);
-                    } catch (Exception ignore) {
-                    }
-                    this.damage = 0;
-                    this.isMobEgg = true;
-                }
-            }
         }
         switch (this.material.name()) {
             case "PLAYER_HEAD":
@@ -320,18 +309,8 @@ public class ItemBuilder implements Cloneable {
     }
     
     /**
-     * Set the type of item and its metadata in the builder.
-     * @param newMaterial The 1.13+ string must be in this form: %Material% or %Material%:%MetaData%
-     * @param oldMaterial The 1.12.2- string must be in this form: %Material% or %Material%:%MetaData%
-     * @return The ItemBuilder with updated info.
-     */
-    public ItemBuilder setMaterial(String newMaterial, String oldMaterial) {
-        return setMaterial(newMaterial);
-    }
-    
-    /**
-     * Get the damage of the item.
-     * @return The damage of the item as an int.
+     * Get the damage to the item.
+     * @return The damage to the item as an int.
      */
     public int getDamage() {
         return damage;
@@ -850,21 +829,8 @@ public class ItemBuilder implements Cloneable {
             ItemMeta itemMeta = item.getItemMeta();
             itemMeta.setDisplayName(getUpdatedName());
             itemMeta.setLore(getUpdatedLore());
-            if (Version.isSame(Version.v1_8_R3)) {
-                if (isHead && !isHash && player != null && !player.equals("")) {
-                    SkullMeta skullMeta = (SkullMeta) itemMeta;
-                    skullMeta.setOwner(player);
-                }
-            }
-            if (Version.isNewer(Version.v1_10_R1)) {
-                itemMeta.setUnbreakable(unbreakable);
-            }
-            if (Version.isNewer(Version.v1_12_R1)) {
-                if (itemMeta instanceof Damageable) {
-                    ((Damageable) itemMeta).setDamage(damage);
-                }
-            } else {
-                item.setDurability((short) damage);
+            if (itemMeta instanceof Damageable) {
+                ((Damageable) itemMeta).setDamage(damage);
             }
             if ((isTippedArrow || isPotion) && (potionType != null || potionColor != null)) {
                 PotionMeta potionMeta = (PotionMeta) itemMeta;
@@ -893,21 +859,14 @@ public class ItemBuilder implements Cloneable {
             if (useCustomModelData) {
                 itemMeta.setCustomModelData(customModelData);
             }
-            itemFlags.forEach(itemMeta :: addItemFlags);
+            itemFlags.forEach(itemMeta::addItemFlags);
             item.setItemMeta(itemMeta);
             hideFlags(item);
             item.addUnsafeEnchantments(enchantments);
             addGlow(item);
             NBTItem nbt = new NBTItem(item);
-            if (isHead && !isHash && player != null && !player.equals("") && Version.isNewer(Version.v1_8_R3)) {
-                nbt.setString("SkullOwner", player);
-            }
             if (isMobEgg && entityType != null) {
                 nbt.addCompound("EntityTag").setString("id", "minecraft:" + entityType.name());
-            }
-            if (unbreakable && Version.isOlder(Version.v1_11_R1)) {
-                nbt.setBoolean("Unbreakable", true);
-                nbt.setInteger("HideFlags", 4);
             }
             return nbt.getItem();
         } else {
@@ -939,18 +898,6 @@ public class ItemBuilder implements Cloneable {
     }
     
     private final java.util.regex.Pattern HEX_PATTERN = java.util.regex.Pattern.compile("#[a-fA-F0-9]{6}");
-    
-    public String color(String message) {
-        if (Version.isNewer(Version.v1_15_R1)) {
-            Matcher matcher = HEX_PATTERN.matcher(message);
-            StringBuffer buffer = new StringBuffer();
-            while (matcher.find()) {
-                matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
-            }
-            return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
-        }
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
     
     private ItemStack hideFlags(ItemStack item) {
         if (hideItemFlags && item != null && item.hasItemMeta()) {
@@ -1083,18 +1030,15 @@ public class ItemBuilder implements Cloneable {
         enchantmentName = stripEnchantmentName(enchantmentName);
         for (Enchantment enchantment : Enchantment.values()) {
             try {
-                //MC 1.13+ has the correct names.
-                if (Version.isNewer(Version.v1_12_R1)) {
-                    if (stripEnchantmentName(enchantment.getKey().getKey()).equalsIgnoreCase(enchantmentName)) {
-                        return enchantment;
-                    }
+                if (stripEnchantmentName(enchantment.getKey().getKey()).equalsIgnoreCase(enchantmentName)) {
+                    return enchantment;
                 }
                 HashMap<String, String> enchantments = getEnchantmentList();
                 if (stripEnchantmentName(enchantment.getName()).equalsIgnoreCase(enchantmentName) || (enchantments.get(enchantment.getName()) != null &&
-                stripEnchantmentName(enchantments.get(enchantment.getName())).equalsIgnoreCase(enchantmentName))) {
+                        stripEnchantmentName(enchantments.get(enchantment.getName())).equalsIgnoreCase(enchantmentName))) {
                     return enchantment;
                 }
-            } catch (Exception ignore) {//If any null enchantments are found they may cause errors.
+            } catch (Exception ignore) {
             }
         }
         return null;
@@ -1142,5 +1086,4 @@ public class ItemBuilder implements Cloneable {
         enchantments.put("LOYALTY", "Loyalty");
         return enchantments;
     }
-    
 }

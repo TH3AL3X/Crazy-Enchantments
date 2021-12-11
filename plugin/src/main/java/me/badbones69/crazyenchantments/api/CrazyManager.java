@@ -404,10 +404,9 @@ public class CrazyManager {
     /**
      * Get the correct sound for the version of minecraft.
      * @param newSound The sound from 1.9+
-     * @param oldSound The sound from 1.8.8-
      * @return The Sound object of the current minecraft version.
      */
-    public Sound getSound(String newSound, String oldSound) {
+    public Sound getSound(String newSound) {
         //return Sound.valueOf(useNewSounds ? newSound : oldSound);
         return Sound.valueOf(newSound);
     }
@@ -415,10 +414,9 @@ public class CrazyManager {
     /**
      * Get the correct material for the version of minecraft.
      * @param newMaterial The material from 1.13+
-     * @param oldMaterial The material from 1.12.2-
      * @return The Material object of the current minecraft version.
      */
-    public Material getMaterial(String newMaterial, String oldMaterial) {
+    public Material getMaterial(String newMaterial) {
         //return Material.matchMaterial(useNewMaterial ? newMaterial : oldMaterial);
         return Material.matchMaterial(newMaterial);
     }

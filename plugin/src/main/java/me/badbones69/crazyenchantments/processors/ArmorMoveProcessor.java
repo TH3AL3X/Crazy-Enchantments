@@ -110,10 +110,10 @@ public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
             useHellForge(player, item);
         }
     }
-    
+
     private void useHellForge(Player player, ItemStack item) {
         if (ce.hasEnchantment(item, CEnchantments.HELLFORGED)) {
-            int armorDurability = Version.isNewer(Version.v1_12_R1) ? ((Damageable) item.getItemMeta()).getDamage() : item.getDurability();
+            int armorDurability = ((Damageable) item.getItemMeta()).getDamage();
             if (armorDurability > 0 && CEnchantments.HELLFORGED.chanceSuccessful(item)) {
                 new BukkitRunnable() {
                     @Override
@@ -123,14 +123,10 @@ public class ArmorMoveProcessor extends Processor<PlayerMoveEvent> {
                         Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled()) {
                             finalArmorDirability -= ce.getLevel(item, CEnchantments.HELLFORGED);
-                            if (Version.isNewer(Version.v1_12_R1)) {
-                                Damageable damageable = (Damageable) item.getItemMeta();
-                                if (damageable != null) {
-                                    damageable.setDamage(Math.max(finalArmorDirability, 0));
-                                    item.setItemMeta((ItemMeta) damageable);
-                                }
-                            } else {
-                                item.setDurability((short) Math.max(finalArmorDirability, 0));
+                            Damageable damageable = (Damageable) item.getItemMeta();
+                            if (damageable != null) {
+                                damageable.setDamage(Math.max(finalArmorDirability, 0));
+                                item.setItemMeta((ItemMeta) damageable);
                             }
                         }
                     }

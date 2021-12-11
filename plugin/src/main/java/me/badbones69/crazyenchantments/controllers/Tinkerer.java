@@ -66,7 +66,7 @@ public class Tinkerer implements Listener {
                 if (Currency.isCurrency(Files.TINKER.getFile().getString("Settings.Currency"))) {
                     CurrencyAPI.giveCurrency(player, Currency.getCurrency(Files.TINKER.getFile().getString("Settings.Currency")), getXP(item));
                 }
-                player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP", "LEVEL_UP"), 1, 1);
+                player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP"), 1, 1);
             }
         }
     }
@@ -107,7 +107,7 @@ public class Tinkerer implements Listener {
                     if (toggle) {
                         player.sendMessage(Messages.TINKER_SOLD_MESSAGE.getMessage());
                     }
-                    player.playSound(player.getLocation(), ce.getSound("ENTITY_VILLAGER_YES", "VILLAGER_YES"), 1, 1);
+                    player.playSound(player.getLocation(), ce.getSound("ENTITY_VILLAGER_YES"), 1, 1);
                     return;
                 }
                 if (!current.getType().toString().endsWith("STAINED_GLASS_PANE")) {// Adding/Taking Items
@@ -134,7 +134,7 @@ public class Tinkerer implements Listener {
                                 inv.setItem(getSlot().get(inv.firstEmpty()), Dust.MYSTERY_DUST.getDust(Files.TINKER.getFile().getInt("Tinker.Crazy-Enchantments." + enchant + ".Book"), 1));
                                 inv.setItem(inv.firstEmpty(), current);
                             }
-                            player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK", "CLICK"), 1, 1);
+                            player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK"), 1, 1);
                         }
                     }
                     if (getTotalXP(current) > 0 && current.getType() != ce.getEnchantmentBookItem().getType()) {// Adding an item
@@ -143,7 +143,7 @@ public class Tinkerer implements Listener {
                                 e.setCurrentItem(new ItemStack(Material.AIR));
                                 player.getInventory().addItem(current);
                                 inv.setItem(getSlot().get(e.getRawSlot()), new ItemStack(Material.AIR));
-                                player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK", "CLICK"), 1, 1);
+                                player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK"), 1, 1);
                             }
                         } else {// Clicking in their inventory
                             if (player.getOpenInventory().getTopInventory().firstEmpty() == -1) {
@@ -157,7 +157,7 @@ public class Tinkerer implements Listener {
                             e.setCurrentItem(new ItemStack(Material.AIR));
                             inv.setItem(getSlot().get(inv.firstEmpty()), getBottle(current));
                             inv.setItem(inv.firstEmpty(), current);
-                            player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK", "CLICK"), 1, 1);
+                            player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK"), 1, 1);
                         }
                     }
                 }

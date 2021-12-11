@@ -117,7 +117,7 @@ public class AllyMob {
         ZOMBIE("Zombie", "&2%player%'s Undead", EntityType.ZOMBIE, 45),
         ENDERMITE("Endermite", "&5%player%'s Endermite", EntityType.ENDERMITE, 10),
         SILVERFISH("Silverfish", "&7%player%'s Silverfish", EntityType.SILVERFISH, 10),
-        BEE("Bee", "&e%player%'s Bee", Version.isNewer(Version.v1_14_R1) ? EntityType.valueOf("BEE") : EntityType.WOLF, 10);
+        BEE("Bee", "&e%player%'s Bee", EntityType.BEE, 10);
         
         private String configName;
         private String defaultName;

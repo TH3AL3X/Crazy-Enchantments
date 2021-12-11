@@ -313,7 +313,7 @@ public class Swords implements Listener {
                             loc.getWorld().spigot().strikeLightningEffect(loc, true);
                             int lightningSoundRange = Files.CONFIG.getFile().getInt("Settings.EnchantmentOptions.Lightning-Sound-Range", 160);
                             try {
-                                loc.getWorld().playSound(loc, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT", "ENTITY_LIGHTNING_IMPACT"), (float) lightningSoundRange / 16f, 1);
+                                loc.getWorld().playSound(loc, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT"), (float) lightningSoundRange / 16f, 1);
                             } catch (Exception ignore) {}
 
                             if (SupportedPlugins.SPARTAN.isPluginLoaded()) {

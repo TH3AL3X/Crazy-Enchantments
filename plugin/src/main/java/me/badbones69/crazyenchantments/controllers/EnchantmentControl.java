@@ -73,7 +73,7 @@ public class EnchantmentControl implements Listener {
                                             placeholders.put("%Enchantment%", enchantment.getCustomName());
                                             placeholders.put("%Level%", bookLevel + "");
                                             player.sendMessage(Messages.ENCHANTMENT_UPGRADE_SUCCESS.getMessage(placeholders));
-                                            player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP", "LEVEL_UP"), 1, 1);
+                                            player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP"), 1, 1);
                                         }
                                         return;
                                     } else if (destroy) {
@@ -107,7 +107,7 @@ public class EnchantmentControl implements Listener {
                                                 }
                                             }
                                             player.setItemOnCursor(new ItemStack(Material.AIR));
-                                            player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK", "ITEM_BREAK"), 1, 1);
+                                            player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK"), 1, 1);
                                         }
                                         return;
                                     } else {
@@ -116,7 +116,7 @@ public class EnchantmentControl implements Listener {
                                         if (!bookFailEvent.isCancelled()) {
                                             player.setItemOnCursor(new ItemStack(Material.AIR));
                                             player.sendMessage(Messages.ENCHANTMENT_UPGRADE_FAILED.getMessage());
-                                            player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK", "ITEM_BREAK"), 1, 1);
+                                            player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK"), 1, 1);
                                         }
                                         return;
                                     }
@@ -139,7 +139,7 @@ public class EnchantmentControl implements Listener {
                             }
                             player.setItemOnCursor(new ItemStack(Material.AIR));
                             player.sendMessage(Messages.BOOK_WORKS.getMessage());
-                            player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP", "LEVEL_UP"), 1, 1);
+                            player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP"), 1, 1);
                             return;
                         }
                         if (destroy) {
@@ -147,7 +147,7 @@ public class EnchantmentControl implements Listener {
                                 e.setCurrentItem(ce.removeWhiteScrollProtection(item));
                                 player.setItemOnCursor(new ItemStack(Material.AIR));
                                 player.sendMessage(Messages.ITEM_WAS_PROTECTED.getMessage());
-                                player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK", "ITEM_BREAK"), 1, 1);
+                                player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK"), 1, 1);
                                 return;
                             } else {
                                 ItemStack newItem = new ItemStack(Material.AIR);
@@ -166,7 +166,7 @@ public class EnchantmentControl implements Listener {
                     }
                     player.sendMessage(Messages.BOOK_FAILED.getMessage());
                     player.setItemOnCursor(new ItemStack(Material.AIR));
-                    player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK", "ITEM_BREAK"), 1, 1);
+                    player.playSound(player.getLocation(), ce.getSound("ENTITY_ITEM_BREAK"), 1, 1);
                     player.updateInventory();
                 }
             }
@@ -175,9 +175,7 @@ public class EnchantmentControl implements Listener {
     
     @EventHandler
     public void onDescriptionSend(PlayerInteractEvent e) {
-        if (Version.isNewer(Version.v1_8_R3) && e.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
+        if (e.getHand() != EquipmentSlot.HAND) return;
         if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && Files.CONFIG.getFile().getBoolean("Settings.EnchantmentOptions.Right-Click-Book-Description")) {
             ItemStack item = Methods.getItemInHand(e.getPlayer());
             if (ce.isEnchantmentBook(item)) {

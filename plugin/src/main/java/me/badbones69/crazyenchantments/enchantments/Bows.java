@@ -40,9 +40,8 @@ public class Bows implements Listener {
     private CrazyManager ce = CrazyManager.getInstance();
     private Support support = Support.getInstance();
     private List<EnchantedArrow> enchantedArrows = new ArrayList<>();
-    private Material web = new ItemBuilder().setMaterial("COBWEB", "WEB").getMaterial();
+    private Material web = new ItemBuilder().setMaterial("COBWEB").getMaterial();
     private List<Block> webBlocks = new ArrayList<>();
-    private boolean isv1_14_Up = Version.isNewer(Version.v1_13_R2);
     private BowEnchantmentManager manager = ce.getBowManager();
     
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -73,9 +72,7 @@ public class Bows implements Listener {
                                 if (e.getProjectile().getFireTicks() > 0) {
                                     spawnedArrow.setFireTicks(e.getProjectile().getFireTicks());
                                 }
-                                if (isv1_14_Up) {
-                                    spawnedArrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
-                                }
+                                spawnedArrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
                             }
                         }
                     } else {
@@ -91,9 +88,7 @@ public class Bows implements Listener {
                             if (e.getProjectile().getFireTicks() > 0) {
                                 spawnedArrow.setFireTicks(e.getProjectile().getFireTicks());
                             }
-                            if (isv1_14_Up) {
-                                spawnedArrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
-                            }
+                            spawnedArrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
                         }
                     }
                 }
@@ -102,63 +97,45 @@ public class Bows implements Listener {
     }
     
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onland(ProjectileHitEvent e) {
+    public void onLand(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             EnchantedArrow arrow = getEnchantedArrow((Arrow) e.getEntity());
             if (arrow != null) {
                 if (CEnchantments.STICKY_SHOT.isActivated() && arrow.hasEnchantment(CEnchantments.STICKY_SHOT) && CEnchantments.STICKY_SHOT.chanceSuccessful(arrow.getBow())) {
-                    if (Version.isNewer(Version.v1_10_R1)) {
-                        if (e.getHitEntity() == null) {//If the arrow hits a block.
-                            Location entityLocation = e.getEntity().getLocation();
-                            if (entityLocation.getBlock().getType() == Material.AIR) {
-                                entityLocation.getBlock().setType(web);
-                                webBlocks.add(entityLocation.getBlock());
-                                e.getEntity().remove();
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        entityLocation.getBlock().setType(Material.AIR);
-                                        webBlocks.remove(entityLocation.getBlock());
-                                    }
-                                }.runTaskLater(ce.getPlugin(), 5 * 20);
-                            }
-                        } else {//If the arrow hits an entity.
-                            List<Location> locations = getSquareArea(e.getHitEntity().getLocation());
-                            for (Location location : locations) {
-                                if (location.getBlock().getType() == Material.AIR) {
-                                    location.getBlock().setType(web);
-                                    webBlocks.add(location.getBlock());
-                                }
-                            }
+                    if (e.getHitEntity() == null) {//If the arrow hits a block.
+                        Location entityLocation = e.getEntity().getLocation();
+                        if (entityLocation.getBlock().getType() == Material.AIR) {
+                            entityLocation.getBlock().setType(web);
+                            webBlocks.add(entityLocation.getBlock());
                             e.getEntity().remove();
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    for (Location location : locations) {
-                                        if (location.getBlock().getType() == web) {
-                                            location.getBlock().setType(Material.AIR);
-                                            webBlocks.remove(location.getBlock());
-                                        }
-                                    }
+                                    entityLocation.getBlock().setType(Material.AIR);
+                                    webBlocks.remove(entityLocation.getBlock());
                                 }
                             }.runTaskLater(ce.getPlugin(), 5 * 20);
                         }
-                    } else {//If the arrow hits something.
-                        if (e.getEntity().getNearbyEntities(.5, .5, .5).isEmpty()) {//Checking to make sure it doesn't hit an entity.
-                            Location entityLocation = e.getEntity().getLocation();
-                            if (entityLocation.getBlock().getType() == Material.AIR) {
-                                entityLocation.getBlock().setType(web);
-                                webBlocks.add(entityLocation.getBlock());
-                                e.getEntity().remove();
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        entityLocation.getBlock().setType(Material.AIR);
-                                        webBlocks.remove(entityLocation.getBlock());
-                                    }
-                                }.runTaskLater(ce.getPlugin(), 5 * 20);
+                    } else {//If the arrow hits an entity.
+                        List<Location> locations = getSquareArea(e.getHitEntity().getLocation());
+                        for (Location location : locations) {
+                            if (location.getBlock().getType() == Material.AIR) {
+                                location.getBlock().setType(web);
+                                webBlocks.add(location.getBlock());
                             }
                         }
+                        e.getEntity().remove();
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                for (Location location : locations) {
+                                    if (location.getBlock().getType() == web) {
+                                        location.getBlock().setType(Material.AIR);
+                                        webBlocks.remove(location.getBlock());
+                                    }
+                                }
+                            }
+                        }.runTaskLater(ce.getPlugin(), 5 * 20);
                     }
                 }
                 if (CEnchantments.BOOM.isActivated() && arrow.hasEnchantment(CEnchantments.BOOM) && CEnchantments.BOOM.chanceSuccessful(arrow.getBow())) {
@@ -171,7 +148,7 @@ public class Bows implements Listener {
                     location.getWorld().spigot().strikeLightningEffect(location, true);
                     int lightningSoundRange = Files.CONFIG.getFile().getInt("Settings.EnchantmentOptions.Lightning-Sound-Range", 160);
                     try {
-                        location.getWorld().playSound(location, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT", "ENTITY_LIGHTNING_IMPACT"), (float) lightningSoundRange / 16f, 1);
+                        location.getWorld().playSound(location, ce.getSound("ENTITY_LIGHTNING_BOLT_IMPACT"), (float) lightningSoundRange / 16f, 1);
                     } catch (Exception ignore) {
                     }
                     if (SupportedPlugins.SPARTAN.isPluginLoaded()) {

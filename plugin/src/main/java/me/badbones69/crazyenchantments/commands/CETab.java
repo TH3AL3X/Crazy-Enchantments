@@ -54,11 +54,7 @@ public class CETab implements TabCompleter {
                         } catch (NullPointerException ignore) {
                         }
                     }
-                    if (isV1_13_Up) {
-                        Arrays.asList(Enchantment.values()).forEach(enchantment -> completions.add(enchantment.getKey().getKey()));
-                    } else {
-                        Arrays.asList(Enchantment.values()).forEach(enchantment -> completions.add(enchantment.getName().replace(" ", "_")));
-                    }
+                    Arrays.asList(Enchantment.values()).forEach(enchantment -> completions.add(enchantment.getKey().getKey()));
                     break;
                 case "spawn":
                     for (CEnchantment enchantment : ce.getRegisteredEnchantments()) {

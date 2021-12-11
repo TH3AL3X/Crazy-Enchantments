@@ -53,7 +53,7 @@ public class FileManager {
             if (!newFile.exists()) {
                 try {
                     File serverFile = new File(plugin.getDataFolder(), "/" + file.getFileLocation());
-                    InputStream jarFile = getClass().getResourceAsStream("/" + file.getFileJar());
+                    InputStream jarFile = getClass().getResourceAsStream("/" + file.getFileLocation());
                     copyFile(jarFile, serverFile);
                 } catch (Exception e) {
                     if (log) plugin.getLogger().info("Failed to load file: " + file.getFileName());
@@ -288,8 +288,7 @@ public class FileManager {
     
     public enum Files {
         
-        //ENUM_NAME("fileName.yml", "fileLocation.yml"),
-        //ENUM_NAME("fileName.yml", "newFileLocation.yml", "oldFileLocation.yml"),
+        //ENUM_NAME("fileName.yml", "fileLocation.yml")
         CONFIG("config.yml", "config.yml"),
         BLOCKLIST("blocklist.yml", "blocklist.yml"),
         DATA("data.yml", "data.yml"),
@@ -301,39 +300,16 @@ public class FileManager {
         TINKER("tinkerer.yml", "tinkerer.yml");
         
         private final String fileName;
-        private final String fileJar;
         private final String fileLocation;
-        
+
         /**
          * The files that the server will try and load.
          * @param fileName The file name that will be in the plugin's folder.
-         * @param fileLocation The location the file in the plugin's folder.
+         * @param fileLocation The location the file is in while in the Jar.
          */
         private Files(String fileName, String fileLocation) {
-            this(fileName, fileLocation, fileLocation);
-        }
-        
-        /**
-         * The files that the server will try and load.
-         * @param fileName The file name that will be in the plugin's folder.
-         * @param fileLocation The location of the file will be in the plugin's folder.
-         * @param fileJar The location of the file in the jar.
-         */
-        private Files(String fileName, String fileLocation, String fileJar) {
             this.fileName = fileName;
             this.fileLocation = fileLocation;
-            this.fileJar = fileJar;
-        }
-        
-        /**
-         * The files that the server will try and load.
-         * @param fileName The file name that will be in the plugin's folder.
-         * @param fileLocation The location of the file will be in the plugin's folder.
-         * @param newFileJar The location of the 1.13+ file version in the jar.
-         * @param oldFileJar The location of the 1.12.2- file version in the jar.
-         */
-        private Files(String fileName, String fileLocation, String newFileJar, String oldFileJar) {
-            this(fileName, fileLocation, Version.isNewer(Version.v1_12_R1) ? newFileJar : oldFileJar);
         }
         
         /**
@@ -350,14 +326,6 @@ public class FileManager {
          */
         public String getFileLocation() {
             return fileLocation;
-        }
-        
-        /**
-         * Get the location of the file in the jar.
-         * @return The location of the file in the jar.
-         */
-        public String getFileJar() {
-            return fileJar;
         }
         
         /**
@@ -386,10 +354,10 @@ public class FileManager {
     
     public class CustomFile {
         
-        private String name;
-        private Plugin plugin;
-        private String fileName;
-        private String homeFolder;
+        private final String name;
+        private final Plugin plugin;
+        private final String fileName;
+        private final String homeFolder;
         private FileConfiguration file;
         
         /**
@@ -493,7 +461,7 @@ public class FileManager {
             if (file != null) {
                 try {
                     file = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "/" + homeFolder + "/" + fileName));
-                    if (log) plugin.getLogger().info("Successfully reload the " + fileName + ".");
+                    if (log) plugin.getLogger().info("Successfully reloaded the " + fileName + ".");
                     return true;
                 } catch (Exception e) {
                     plugin.getLogger().info("Could not reload the " + fileName + "!");

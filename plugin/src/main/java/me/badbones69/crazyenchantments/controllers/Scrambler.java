@@ -114,7 +114,7 @@ public class Scrambler implements Listener {
                 if (full <= 50) {//When Spinning
                     moveItems(inventory, player, book);
                     setGlass(inventory);
-                    player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK", "CLICK"), 1, 1);
+                    player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK"), 1, 1);
                 }
                 open++;
                 if (open >= 5) {
@@ -126,11 +126,11 @@ public class Scrambler implements Listener {
                     if (slowSpin().contains(time)) {//When Slowing Down
                         moveItems(inventory, player, book);
                         setGlass(inventory);
-                        player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK", "CLICK"), 1, 1);
+                        player.playSound(player.getLocation(), ce.getSound("UI_BUTTON_CLICK"), 1, 1);
                     }
                     time++;
                     if (time == 60) {// When done
-                        player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP", "LEVEL_UP"), 1, 1);
+                        player.playSound(player.getLocation(), ce.getSound("ENTITY_PLAYER_LEVELUP"), 1, 1);
                         cancel();
                         roll.remove(player);
                         ItemStack item = inventory.getItem(13).clone();
