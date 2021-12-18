@@ -28,8 +28,6 @@ object AllyEnchantments : Listener {
     fun onAllySpawn(e: EntityDamageByEntityEvent): Unit = with(e) {
         if (e.isCancelled && crazyManager.isIgnoredEvent(e)) return
 
-        val rightNow = Calendar.getInstance()
-
         if (e.entity !is Player && e.damager !is LivingEntity) return
 
         val player = e.entity as Player
