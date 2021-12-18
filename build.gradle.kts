@@ -27,10 +27,10 @@ subprojects {
 
     dependencies {
         compileOnly("org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT")
+        compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
         compileOnly("net.milkbowl.vault:VaultAPI:1.7")
 
         implementation("de.tr7zw:item-nbt-api:2.9.0-SNAPSHOT")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
 
         implementation("com.github.cryptomorin:XSeries:8.5.0.1")
     }
