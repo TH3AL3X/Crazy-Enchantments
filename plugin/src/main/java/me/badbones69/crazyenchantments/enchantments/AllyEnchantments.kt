@@ -4,7 +4,6 @@ import me.badbones69.crazyenchantments.api.CrazyManager
 import me.badbones69.crazyenchantments.api.enums.CEnchantments
 import me.badbones69.crazyenchantments.api.managers.AllyManager
 import me.badbones69.crazyenchantments.api.objects.AllyMob
-import me.badbones69.crazyenchantments.api.objects.CEnchantment
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
