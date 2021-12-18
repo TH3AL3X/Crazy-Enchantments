@@ -17,7 +17,7 @@ tasks {
         doLast {
             copy {
                 from("build/libs/${rootProject.name}[v${version}].jar")
-                into("H:\\Plugins\\CrazyCrew\\.server\\plugins")
+                into("H:\\Development\\Server\\plugins")
             }
         }
     }
