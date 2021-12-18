@@ -7,6 +7,7 @@ import me.badbones69.crazyenchantments.api.currencyapi.CurrencyAPI;
 import me.badbones69.crazyenchantments.commands.*;
 import me.badbones69.crazyenchantments.controllers.*;
 import me.badbones69.crazyenchantments.enchantments.*;
+import me.badbones69.crazyenchantments.func.database.Data
 import me.badbones69.crazyenchantments.func.registerListener
 import me.badbones69.crazyenchantments.multisupport.Version;
 import org.bukkit.attribute.Attribute
@@ -35,6 +36,8 @@ class CrazyEnchantments : JavaPlugin() , Listener {
     override fun onEnable() {
         super.onEnable()
         fileManager.logInfo(false).setup(this)
+
+        Data(this).load()
 
         crazyManager.load()
 
@@ -82,6 +85,8 @@ class CrazyEnchantments : JavaPlugin() , Listener {
 
     override fun onDisable() {
         super.onDisable()
+
+        Data(this).save()
 
         if (crazyManager.allyManager != null) crazyManager.allyManager.forceRemoveAllies()
         server.onlinePlayers.forEach { crazyManager.unloadCEPlayer(it) }

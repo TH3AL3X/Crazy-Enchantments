@@ -3,6 +3,8 @@ package me.badbones69.crazyenchantments.func
 import me.badbones69.crazyenchantments.CrazyEnchantments
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.event.Listener
+import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -15,5 +17,7 @@ fun color(message: String): String {
     }
     return org.bukkit.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString())
 }
+
+fun getFile(plugin: JavaPlugin, name: String): File = File("${plugin.dataFolder}/data", name)
 
 fun CrazyEnchantments.registerListener(vararg listeners: Listener) = listeners.toList().forEach { server.pluginManager.registerEvents(it, this) }
