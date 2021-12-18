@@ -21,3 +21,4 @@ commands:
     aliases: [ gkitz, gkits ]
 libraries:
   - org.jetbrains.kotlin:kotlin-stdlib:1.6.0
+  - org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC3

@@ -2,6 +2,7 @@ plugins {
     java
 
     kotlin("jvm") version "1.6.0"
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 allprojects {
@@ -27,6 +28,7 @@ subprojects {
 
     dependencies {
         compileOnly("org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT")
+        compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC3")
         compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
         compileOnly("net.milkbowl.vault:VaultAPI:1.7")
 
