@@ -3,7 +3,6 @@ package me.badbones69.crazyenchantments.api;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.badbones69.crazyenchantments.Methods;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
-import me.badbones69.crazyenchantments.api.currencyapi.Currency;
 import me.badbones69.crazyenchantments.api.enums.CEnchantments;
 import me.badbones69.crazyenchantments.api.enums.Dust;
 import me.badbones69.crazyenchantments.api.enums.Scrolls;
@@ -119,7 +118,7 @@ public class CrazyManager {
             .setLore(config.getStringList(path + ".LostBook.Lore"))
             .setGlowing(config.getBoolean(path + ".LostBook.Glowing")),
             config.getInt(path + ".LostBook.Cost"),
-            Currency.getCurrency(config.getString(path + ".LostBook.Currency")),
+                    me.badbones69.crazyenchantments.api.currencyapi.Currency.getCurrency(config.getString(path + ".LostBook.Currency")),
             config.getBoolean(path + ".LostBook.FireworkToggle"),
             getColors(config.getString(path + ".LostBook.FireworkColors")),
             config.getBoolean(path + ".LostBook.Sound-Toggle"),
@@ -135,7 +134,7 @@ public class CrazyManager {
             .setLore(config.getStringList(path + ".Lore"))
             .setGlowing(config.getBoolean(path + ".Glowing")),
             config.getInt(path + ".Cost"),
-            Currency.getCurrency(config.getString(path + ".Currency")),
+            me.badbones69.crazyenchantments.api.currencyapi.Currency.getCurrency(config.getString(path + ".Currency")),
             config.getInt(path + ".Rarity"),
             lostBook,
             config.getInt(path + ".EnchOptions.SuccessPercent.Max"),
