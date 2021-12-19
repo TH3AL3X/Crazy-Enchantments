@@ -1,12 +1,11 @@
 package me.badbones69.crazyenchantments.func.database
 
 import com.google.gson.GsonBuilder
-import me.corecraft.func.database.json.adapters.LocalTimeTypeAdapter
+import me.badbones69.crazyenchantments.func.database.json.adapters.EnumTypeAdapter
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.*
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.time.LocalTime
 
 class JsonManager(private val plugin: JavaPlugin) {
 
@@ -93,8 +92,6 @@ class JsonManager(private val plugin: JavaPlugin) {
 }
 
 object Data {
-
-    var testString = "BlahBlah"
 
     fun load(plugin: JavaPlugin) = JsonManager(plugin).loadFromFile(this, Data::class.java, "data.json")
 

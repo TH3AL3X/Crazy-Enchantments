@@ -1,4 +1,4 @@
-package me.badbones69.crazyenchantments.func.database;
+package me.badbones69.crazyenchantments.func.database.json.adapters;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
