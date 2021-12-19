@@ -18,6 +18,9 @@ fun color(message: String): String {
     return org.bukkit.ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString())
 }
 
-fun getFile(plugin: JavaPlugin, name: String): File = File("${plugin.dataFolder}/data", name)
+fun getFile(plugin: JavaPlugin, name: String): File {
+    val dataFolder = File(plugin.dataFolder, "/data")
+    return File(dataFolder, name)
+}
 
 fun CrazyEnchantments.registerListener(vararg listeners: Listener) = listeners.toList().forEach { server.pluginManager.registerEvents(it, this) }

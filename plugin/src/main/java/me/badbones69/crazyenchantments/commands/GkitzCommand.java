@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 import java.util.HashMap;
 
 public class GkitzCommand implements CommandExecutor {
@@ -63,7 +65,7 @@ public class GkitzCommand implements CommandExecutor {
                             placeholders.put("%Kit%", kit.getName());
                             sender.sendMessage(Messages.RESET_GKIT.getMessage(placeholders));
                         } else {
-                            sender.sendMessage(Methods.getPrefix() + Methods.color("&c/GKitz Reset <Kit> [Player]"));
+                            sender.sendMessage(Methods.getPrefix() + color("&c/GKitz Reset <Kit> [Player]"));
                         }
                     }
                 } else {

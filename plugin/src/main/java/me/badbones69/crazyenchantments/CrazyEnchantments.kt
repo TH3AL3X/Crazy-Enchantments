@@ -2,7 +2,6 @@ package me.badbones69.crazyenchantments;
 
 import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager;
-import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.currencyapi.CurrencyAPI;
 import me.badbones69.crazyenchantments.commands.*;
 import me.badbones69.crazyenchantments.controllers.*;
@@ -21,8 +20,6 @@ class CrazyEnchantments : JavaPlugin() , Listener {
 
     private val crazyManager = CrazyManager.getInstance()
     private val fileManager = FileManager.getInstance()
-
-    private val health = Files.CONFIG.file.getBoolean("Settings.Reset-Players-Max-Health")
 
     override fun onLoad() {
         when {
@@ -45,7 +42,7 @@ class CrazyEnchantments : JavaPlugin() , Listener {
 
         server.onlinePlayers.forEach {
             crazyManager.loadCEPlayer(it)
-            if (!health) return
+            //if (!health) return
             it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue!!
         }
 
@@ -96,7 +93,7 @@ class CrazyEnchantments : JavaPlugin() , Listener {
     fun onPlayerJoin(e: PlayerJoinEvent): Unit = with(e) {
         crazyManager.loadCEPlayer(player)
         crazyManager.updatePlayerEffects(player)
-        if (!health) return
+        //if (!health) return
         player.getAttribute(Attribute.GENERIC_ARMOR)?.baseValue = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue!!
     }
 

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public enum CEnchantments {
     
     //	----------------Boots----------------  \\
@@ -240,7 +242,7 @@ public enum CEnchantments {
      * @return Return the color that goes on the Enchantment Book.
      */
     public String getBookColor() {
-        return Methods.color(getEnchantment().getBookColor());
+        return color(getEnchantment().getBookColor());
     }
     
     /**
@@ -248,7 +250,7 @@ public enum CEnchantments {
      * @return Returns the color that goes on the Enchanted Item.
      */
     public String getEnchantmentColor() {
-        return Methods.color(getEnchantment().getColor());
+        return color(getEnchantment().getColor());
     }
     
     /**

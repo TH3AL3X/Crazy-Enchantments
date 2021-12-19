@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ProtectionCrystal implements Listener {
         .setName(config.getString("Settings.ProtectionCrystal.Name"))
         .setLore(config.getStringList("Settings.ProtectionCrystal.Lore"))
         .setGlowing(config.getBoolean("Settings.ProtectionCrystal.Glowing"));
-        protectionString = Methods.color(Files.CONFIG.getFile().getString("Settings.ProtectionCrystal.Protected"));
+        protectionString = color(Files.CONFIG.getFile().getString("Settings.ProtectionCrystal.Protected"));
     }
     
     public static ItemStack getCrystals() {

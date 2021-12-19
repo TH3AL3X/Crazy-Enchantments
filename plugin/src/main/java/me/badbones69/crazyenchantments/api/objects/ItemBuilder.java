@@ -20,13 +20,11 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
-
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import static me.badbones69.crazyenchantments.Methods.color;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 
 /**
  *
@@ -326,7 +324,7 @@ public class ItemBuilder implements Cloneable {
         }
         return this;
     }
-    
+
     /**
      * Set the placeholders for the name of the item.
      * @param placeholders The placeholders that will be used.

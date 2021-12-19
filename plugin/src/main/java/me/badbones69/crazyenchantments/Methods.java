@@ -25,21 +25,14 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public class Methods {
     
     private static Random random = new Random();
     private static CrazyManager ce = CrazyManager.getInstance();
     private static Support support = Support.getInstance();
     public final static Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
-    
-    public static String color(String message) {
-        Matcher matcher = HEX_PATTERN.matcher(message);
-        StringBuilder buffer = new StringBuilder();
-        while (matcher.find()) {
-            matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of(matcher.group()).toString());
-        }
-        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
-    }
     
     public static String removeColor(String msg) {
         return ChatColor.stripColor(msg);
@@ -205,7 +198,7 @@ public class Methods {
     public static int getPercent(String argument, ItemStack item, List<String> originalLore, int defaultValue) {
         String arg = defaultValue + "";
         for (String originalLine : originalLore) {
-            originalLine = Methods.color(originalLine).toLowerCase();
+            originalLine = color(originalLine).toLowerCase();
             if (originalLine.contains(argument.toLowerCase())) {
                 String[] b = originalLine.split(argument.toLowerCase());
                 for (String itemLine : item.getItemMeta().getLore()) {
@@ -241,7 +234,7 @@ public class Methods {
     
     public static boolean hasArgument(String arg, List<String> message) {
         for (String line : message) {
-            line = Methods.color(line).toLowerCase();
+            line = color(line).toLowerCase();
             if (line.contains(arg.toLowerCase())) {
                 return true;
             }
@@ -309,27 +302,44 @@ public class Methods {
         FireworkDamage.addFirework(fw);
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(ce.getPlugin(), fw :: detonate, 2);
     }
-    
+
     public static Color getColor(String color) {
-        return switch (color.toUpperCase()) {
-            case "AQUA" -> Color.AQUA;
-            case "BLACK" -> Color.BLACK;
-            case "BLUE" -> Color.BLUE;
-            case "FUCHSIA" -> Color.FUCHSIA;
-            case "GRAY" -> Color.GRAY;
-            case "GREEN" -> Color.GREEN;
-            case "LIME" -> Color.LIME;
-            case "MAROON" -> Color.MAROON;
-            case "NAVY" -> Color.NAVY;
-            case "OLIVE" -> Color.OLIVE;
-            case "ORANGE" -> Color.ORANGE;
-            case "PURPLE" -> Color.PURPLE;
-            case "RED" -> Color.RED;
-            case "SILVER" -> Color.SILVER;
-            case "TEAL" -> Color.TEAL;
-            case "YELLOW" -> Color.YELLOW;
-            default -> Color.WHITE;
-        };
+        switch (color.toUpperCase()) {
+            case "AQUA":
+                return Color.AQUA;
+            case "BLACK":
+                return Color.BLACK;
+            case "BLUE":
+                return Color.BLUE;
+            case "FUCHSIA":
+                return Color.FUCHSIA;
+            case "GRAY":
+                return Color.GRAY;
+            case "GREEN":
+                return Color.GREEN;
+            case "LIME":
+                return Color.LIME;
+            case "MAROON":
+                return Color.MAROON;
+            case "NAVY":
+                return Color.NAVY;
+            case "OLIVE":
+                return Color.OLIVE;
+            case "ORANGE":
+                return Color.ORANGE;
+            case "PURPLE":
+                return Color.PURPLE;
+            case "RED":
+                return Color.RED;
+            case "SILVER":
+                return Color.SILVER;
+            case "TEAL":
+                return Color.TEAL;
+            case "YELLOW":
+                return Color.YELLOW;
+            default:
+                return Color.WHITE;
+        }
     }
     
     public static String stripString(String string) {

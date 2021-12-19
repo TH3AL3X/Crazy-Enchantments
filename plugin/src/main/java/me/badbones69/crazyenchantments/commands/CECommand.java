@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public class CECommand implements CommandExecutor {
     
     private CrazyManager ce = CrazyManager.getInstance();
@@ -92,26 +94,26 @@ public class CECommand implements CommandExecutor {
                                 sender.sendMessage(Methods.getPrefix("&cMissing Enchantments:"));
                                 sender.sendMessage(Methods.getPrefix("&7These enchantments are broken due to one of the following reasons:"));
                                 for (String broke : brokenEnchantments) {
-                                    sender.sendMessage(Methods.color("&c#" + i + ": &6" + broke));
+                                    sender.sendMessage(color("&c#" + i + ": &6" + broke));
                                     i++;
                                 }
-                                sender.sendMessage(Methods.color("&7- &cMissing from the enchantments.yml"));
-                                sender.sendMessage(Methods.color("&7- &c<Enchantment Name>: option was changed"));
-                                sender.sendMessage(Methods.color("&7- &cYaml format has been broken."));
+                                sender.sendMessage(color("&7- &cMissing from the enchantments.yml"));
+                                sender.sendMessage(color("&7- &c<Enchantment Name>: option was changed"));
+                                sender.sendMessage(color("&7- &cYaml format has been broken."));
                             }
                             if (!brokenEnchantmentTypes.isEmpty()) {
                                 int i = 1;
                                 sender.sendMessage(Methods.getPrefix("&cEnchantments with null types:"));
                                 sender.sendMessage(Methods.getPrefix("&7These enchantments are broken due to the enchantment type being null."));
                                 for (String broke : brokenEnchantmentTypes) {
-                                    sender.sendMessage(Methods.color("&c#" + i + ": &6" + broke));
+                                    sender.sendMessage(color("&c#" + i + ": &6" + broke));
                                     i++;
                                 }
                             }
                         }
                         sender.sendMessage(Methods.getPrefix("&cEnchantment Types and amount of items in each:"));
                         for (EnchantmentType enchantmentType : InfoMenuManager.getInstance().getEnchantmentTypes()) {
-                            sender.sendMessage(Methods.color("&c" + enchantmentType.getName() + ": &6" + enchantmentType.getEnchantableMaterials().size()));
+                            sender.sendMessage(color("&c" + enchantmentType.getName() + ": &6" + enchantmentType.getEnchantableMaterials().size()));
                         }
                     }
                     return true;
@@ -124,7 +126,7 @@ public class CECommand implements CommandExecutor {
                                 brokenEnchantments.add(enchantment);
                             }
                         }
-                        sender.sendMessage(Methods.color("&7Fixed a total of " + brokenEnchantments.size() + " enchantments."));
+                        sender.sendMessage(color("&7Fixed a total of " + brokenEnchantments.size() + " enchantments."));
                         for (CEnchantments enchantment : brokenEnchantments) {
                             String path = "Enchantments." + enchantment.getName();
                             file.set(path + ".Enabled", true);
@@ -225,7 +227,7 @@ public class CECommand implements CommandExecutor {
                             sender.sendMessage(Messages.SPAWNED_BOOK.getMessage(placeholders));
                             return true;
                         }
-                        sender.sendMessage(Methods.getPrefix() + Methods.color("&c/ce Spawn <Enchantment/Category> [(Level:#/Min-Max)/World:<World>/X:#/Y:#/Z:#]"));
+                        sender.sendMessage(Methods.getPrefix() + color("&c/ce Spawn <Enchantment/Category> [(Level:#/Min-Max)/World:<World>/X:#/Y:#/Z:#]"));
                     }
                     return true;
                 case "lostbook":// /ce lostbook <category> [amount] [player]
@@ -268,7 +270,7 @@ public class CECommand implements CommandExecutor {
                             sender.sendMessage(Messages.NOT_A_CATEGORY.getMessage(placeholders));
                             return true;
                         }
-                        sender.sendMessage(Methods.getPrefix() + Methods.color("&c/ce LostBook <Category> [Amount] [Player]"));
+                        sender.sendMessage(Methods.getPrefix() + color("&c/ce LostBook <Category> [Amount] [Player]"));
                     }
                     return true;
                 case "scrambler":// /ce scrambler [amount] [player]
@@ -411,7 +413,7 @@ public class CECommand implements CommandExecutor {
                                 return true;
                             }
                         }
-                        sender.sendMessage(Methods.getPrefix() + Methods.color("&c/ce Dust <Success/Destroy/Mystery> <Amount> [Player] [Percent]"));
+                        sender.sendMessage(Methods.getPrefix() + color("&c/ce Dust <Success/Destroy/Mystery> <Amount> [Player] [Percent]"));
                     }
                     return true;
                 case "scroll":// /ce scroll <scroll> [amount] [player]
@@ -444,7 +446,7 @@ public class CECommand implements CommandExecutor {
                                 return true;
                             }
                         }
-                        sender.sendMessage(Methods.getPrefix() + Methods.color("&c/ce Scroll <White/Black/Transmog> [Amount] [Player]"));
+                        sender.sendMessage(Methods.getPrefix() + color("&c/ce Scroll <White/Black/Transmog> [Amount] [Player]"));
                     }
                     return true;
                 case "add":// /ce add <enchantment> [level]
@@ -524,7 +526,7 @@ public class CECommand implements CommandExecutor {
                             placeholders.put("%Enchantment%", args[1]);
                             sender.sendMessage(Messages.DOESNT_HAVE_ENCHANTMENT.getMessage(placeholders));
                         }
-                        sender.sendMessage(Methods.getPrefix() + Methods.color("&c/ce Remove <Enchantment>"));
+                        sender.sendMessage(Methods.getPrefix() + color("&c/ce Remove <Enchantment>"));
                     }
                     return true;
                 case "book":// /ce book <enchantment> [level] [amount] [player]
@@ -575,7 +577,7 @@ public class CECommand implements CommandExecutor {
                             player.getInventory().addItem(new CEBook(enchantment, level, amount).buildBook());
                             return true;
                         }
-                        sender.sendMessage(Methods.getPrefix() + Methods.color("&c/ce Book <Enchantment> [Lvl] [Amount] [Player]"));
+                        sender.sendMessage(Methods.getPrefix() + color("&c/ce Book <Enchantment> [Lvl] [Amount] [Player]"));
                     }
                     return true;
                 default:

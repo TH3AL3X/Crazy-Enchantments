@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
@@ -19,6 +21,12 @@ tasks {
                 from("build/libs/${rootProject.name}[v${version}].jar")
                 into("H:\\Development\\Server\\plugins")
             }
+        }
+    }
+
+    withType<KotlinCompile>{
+        kotlinOptions {
+            jvmTarget = "16"
         }
     }
 }

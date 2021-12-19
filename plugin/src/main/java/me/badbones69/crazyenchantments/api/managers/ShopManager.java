@@ -1,6 +1,6 @@
 package me.badbones69.crazyenchantments.api.managers;
 
-import me.badbones69.crazyenchantments.Methods;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.currencyapi.Currency;
@@ -35,7 +35,7 @@ public class ShopManager {
         customizerItems.clear();
         shopItems.clear();
         FileConfiguration config = Files.CONFIG.getFile();
-        inventoryName = Methods.color(config.getString("Settings.InvName"));
+        inventoryName = color(config.getString("Settings.InvName"));
         inventorySize = config.getInt("Settings.GUISize");
         enchantmentTableShop = config.getBoolean("Settings.EnchantmentOptions.Right-Click-Enchantment-Table");
         for (String customItemString : config.getStringList("Settings.GUICustomization")) {

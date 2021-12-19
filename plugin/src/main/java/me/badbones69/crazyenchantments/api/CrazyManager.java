@@ -35,6 +35,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public class CrazyManager {
     
     private static CrazyManager instance = new CrazyManager();
@@ -96,7 +98,7 @@ public class CrazyManager {
                 blockList.add(new ItemBuilder().setMaterial(id).getMaterial());
             } catch (Exception ignored) {}
         }
-        whiteScrollProtectionName = Methods.color(config.getString("Settings.WhiteScroll.ProtectedName"));
+        whiteScrollProtectionName = color(config.getString("Settings.WhiteScroll.ProtectedName"));
         enchantmentBook = new ItemBuilder().setMaterial(config.getString("Settings.Enchantment-Book-Item"));
         useUnsafeEnchantments = config.getBoolean("Settings.EnchantmentOptions.UnSafe-Enchantments");
         maxEnchantmentCheck = config.getBoolean("Settings.EnchantmentOptions.MaxAmountOfEnchantmentsToggle");
@@ -228,7 +230,7 @@ public class CrazyManager {
         Boots.startWings();
         Support.getInstance().load();
     }
-    
+
     /**
      * Only needs used when the player joins the server.
      * This plugin does it automatically, so there is no need to use it unless you have to.
@@ -787,7 +789,7 @@ public class CrazyManager {
             List<String> lores = new ArrayList<>();
             HashMap<String, String> enchantmentStrings = new HashMap<>();
             for (CEnchantment en : getEnchantmentsOnItem(item)) {
-                enchantmentStrings.put(en.getName(), Methods.color(en.getColor() + en.getCustomName() + " " + convertLevelString(getLevel(item, en))));
+                enchantmentStrings.put(en.getName(), color(en.getColor() + en.getCustomName() + " " + convertLevelString(getLevel(item, en))));
                 removeEnchantment(item, en);
             }
             ItemMeta meta = item.getItemMeta();
@@ -797,7 +799,7 @@ public class CrazyManager {
                     lores.addAll(itemLore);
                 }
             }
-            enchantmentStrings.put(enchantment.getName(), Methods.color(enchantment.getColor() + enchantment.getCustomName() + " " + convertLevelString(level)));
+            enchantmentStrings.put(enchantment.getName(), color(enchantment.getColor() + enchantment.getCustomName() + " " + convertLevelString(level)));
             for (Entry<String, String> stringEntry : enchantmentStrings.entrySet()) {
                 newLore.add(stringEntry.getValue());
             }

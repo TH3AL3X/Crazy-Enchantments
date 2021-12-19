@@ -3,6 +3,7 @@ package me.badbones69.crazyenchantments.api.objects;
 import me.badbones69.crazyenchantments.Methods;
 
 import java.util.Calendar;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 
 public class Cooldown {
     
@@ -51,7 +52,7 @@ public class Cooldown {
             for (; total > 60; total -= 60, minute++) ;
             second += total;
         }
-        return Methods.color(message.replace("%Day%", day + "").replace("%day%", day + "")
+        return color(message.replace("%Day%", day + "").replace("%day%", day + "")
         .replace("%Hour%", hour + "").replace("%hour%", hour + "")
         .replace("%Minute%", minute + "").replace("%minute%", minute + "")
         .replace("%Second%", second + "").replace("%second%", second + ""));

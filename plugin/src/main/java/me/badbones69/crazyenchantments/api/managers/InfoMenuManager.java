@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public class InfoMenuManager {
     
     public static final InfoMenuManager instance = new InfoMenuManager();
@@ -34,7 +36,7 @@ public class InfoMenuManager {
         enchantmentTypes.clear();
         FileConfiguration file = Files.ENCHANTMENT_TYPES.getFile();
         String path = "Info-GUI-Settings";
-        inventoryName = Methods.color(file.getString(path + ".Inventory.Name", "&c&lEnchantment Info"));
+        inventoryName = color(file.getString(path + ".Inventory.Name", "&c&lEnchantment Info"));
         inventorySize = file.getInt(path + ".Inventory.Size", 18);
         inventoryMenu = Bukkit.createInventory(null, inventorySize, inventoryName);
         backRight = new ItemBuilder()

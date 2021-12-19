@@ -1,6 +1,6 @@
 package me.badbones69.crazyenchantments.api.objects;
 
-import me.badbones69.crazyenchantments.Methods;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import org.bukkit.inventory.ItemStack;
@@ -210,10 +210,10 @@ public class CEBook {
         for (String bookLine : Files.CONFIG.getFile().getStringList("Settings.EnchantmentBookLore")) {
             if (bookLine.contains("%Description%") || bookLine.contains("%description%")) {
                 for (String enchantmentLine : enchantment.getInfoDescription()) {
-                    lore.add(Methods.color(enchantmentLine));
+                    lore.add(color(enchantmentLine));
                 }
             } else {
-                lore.add(Methods.color(bookLine)
+                lore.add(color(bookLine)
                 .replace("%Destroy_Rate%", destroyRate + "").replace("%destroy_rate%", destroyRate + "")
                 .replace("%Success_Rate%", successRate + "").replace("%success_rate%", successRate + ""));
             }

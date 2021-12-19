@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public class GKitzController implements Listener {
     
     private static CrazyManager ce = CrazyManager.getInstance();
@@ -33,7 +35,7 @@ public class GKitzController implements Listener {
     
     public static void openGUI(Player player) {
         FileConfiguration gkitz = Files.GKITZ.getFile();
-        Inventory inventory = Bukkit.createInventory(null, gkitz.getInt("Settings.GUI-Size"), Methods.color(gkitz.getString("Settings.Inventory-Name")));
+        Inventory inventory = Bukkit.createInventory(null, gkitz.getInt("Settings.GUI-Size"), color(gkitz.getString("Settings.Inventory-Name")));
         for (String customItemString : gkitz.getStringList("Settings.GUI-Customization")) {
             int slot = 0;
             for (String option : customItemString.split(", ")) {
@@ -73,14 +75,14 @@ public class GKitzController implements Listener {
             CEPlayer cePlayer = ce.getCEPlayer(player);
             NBTItem nbtItem = new NBTItem(item);
             for (GKitz kit : ce.getGKitz())
-                if (e.getView().getTitle().equals(Methods.color(kit.getDisplayItem().getItemMeta().getDisplayName()))) {
+                if (e.getView().getTitle().equals(color(kit.getDisplayItem().getItemMeta().getDisplayName()))) {
                     e.setCancelled(true);
                     if (e.getRawSlot() < inventory.getSize() && item.isSimilar(infoManager.getBackRightButton())) {
                         openGUI(player);
                     }
                     return;
                 }
-            if (e.getView().getTitle().equals(Methods.color(Files.GKITZ.getFile().getString("Settings.Inventory-Name")))) {
+            if (e.getView().getTitle().equals(color(Files.GKITZ.getFile().getString("Settings.Inventory-Name")))) {
                 e.setCancelled(true);
                 if (e.getRawSlot() < inventory.getSize() && nbtItem.hasKey("gkit")) {
                     GKitz kit = ce.getGKitFromName(nbtItem.getString("gkit"));

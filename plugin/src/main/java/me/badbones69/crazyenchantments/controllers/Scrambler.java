@@ -21,6 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class Scrambler implements Listener {
         .setName(config.getString("Settings.Scrambler.GUI.Pointer.Name"))
         .setLore(config.getStringList("Settings.Scrambler.GUI.Pointer.Lore"));
         animationToggle = Files.CONFIG.getFile().getBoolean("Settings.Scrambler.GUI.Toggle");
-        guiName = Methods.color(Files.CONFIG.getFile().getString("Settings.Scrambler.GUI.Name"));
+        guiName = color(Files.CONFIG.getFile().getString("Settings.Scrambler.GUI.Name"));
     }
     
     /**

@@ -8,6 +8,7 @@ import me.badbones69.crazyenchantments.api.enums.Scrolls;
 import me.badbones69.crazyenchantments.api.objects.CEBook;
 import me.badbones69.crazyenchantments.api.objects.CEnchantment;
 import me.badbones69.crazyenchantments.api.objects.EnchantmentType;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -33,7 +34,7 @@ public class ScrollControl implements Listener {
     
     public static void loadScrollControl() {
         FileConfiguration config = Files.CONFIG.getFile();
-        suffix = Methods.color(config.getString("Settings.TransmogScroll.Amount-of-Enchantments", " &7[&6&n%amount%&7]"));
+        suffix = color(config.getString("Settings.TransmogScroll.Amount-of-Enchantments", " &7[&6&n%amount%&7]"));
         countVanillaEnchantments = config.getBoolean("Settings.TransmogScroll.Count-Vanilla-Enchantments");
         useSuffix = config.getBoolean("Settings.TransmogScroll.Amount-Toggle");
         blackScrollChance = config.getInt("Settings.BlackScroll.Chance", 75);
@@ -142,12 +143,12 @@ public class ScrollControl implements Listener {
         itemMeta.setLore(lore);
         //If adding suffix to the item name then it can run this.
         if (useSuffix) {
-            String newName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : Methods.color("&b" + WordUtils.capitalizeFully(item.getType().toString().replace("_", " ").toLowerCase()));
+            String newName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : color("&b" + WordUtils.capitalizeFully(item.getType().toString().replace("_", " ").toLowerCase()));
             //Checks if the item has a custom name and if so checks to see if it already has the suffix.
             if (itemMeta.hasDisplayName()) {
                 for (int i = 0; i <= 100; i++) {
                     String msg = suffix.replace("%Amount%", i + "").replace("%amount%", i + "");
-                    if (itemMeta.getDisplayName().endsWith(Methods.color(msg))) {
+                    if (itemMeta.getDisplayName().endsWith(color(msg))) {
                         newName = itemMeta.getDisplayName().substring(0, itemMeta.getDisplayName().length() - msg.length());
                         break;
                     }

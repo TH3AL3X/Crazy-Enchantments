@@ -1,6 +1,6 @@
 package me.badbones69.crazyenchantments.api.managers;
 
-import me.badbones69.crazyenchantments.Methods;
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
 import me.badbones69.crazyenchantments.api.FileManager.Files;
 import me.badbones69.crazyenchantments.api.objects.AllyMob;
 import me.badbones69.crazyenchantments.api.objects.AllyMob.AllyType;
@@ -21,7 +21,7 @@ public class AllyManager {
         FileConfiguration config = Files.CONFIG.getFile();
         String allyTypePath = "Settings.EnchantmentOptions.Ally-Mobs.";
         for (AllyType type : AllyType.values()) {
-            allyTypeNameCache.put(type, Methods.color(config.getString(allyTypePath + type.getConfigName(), type.getDefaultName())));
+            allyTypeNameCache.put(type, color(config.getString(allyTypePath + type.getConfigName(), type.getDefaultName())));
         }
     }
     

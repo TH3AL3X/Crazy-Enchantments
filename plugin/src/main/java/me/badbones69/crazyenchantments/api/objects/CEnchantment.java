@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public class CEnchantment {
     
     private static CrazyManager ce = CrazyManager.getInstance();
@@ -81,7 +83,7 @@ public class CEnchantment {
     }
     
     public CEnchantment setColor(String color) {
-        this.color = Methods.color(color);
+        this.color = color(color);
         return this;
     }
     
@@ -93,7 +95,7 @@ public class CEnchantment {
         if (bookColor.startsWith("&f")) {
             bookColor = bookColor.substring(2);
         }
-        this.bookColor = Methods.color(bookColor);
+        this.bookColor = color(bookColor);
         return this;
     }
     
@@ -111,7 +113,7 @@ public class CEnchantment {
     }
     
     public CEnchantment setInfoName(String infoName) {
-        this.infoName = Methods.color(infoName);
+        this.infoName = color(infoName);
         return this;
     }
     
@@ -150,7 +152,7 @@ public class CEnchantment {
     public CEnchantment setInfoDescription(List<String> infoDescription) {
         List<String> info = new ArrayList<>();
         for (String i : infoDescription) {
-            info.add(Methods.color(i));
+            info.add(color(i));
         }
         this.infoDescription = info;
         return this;

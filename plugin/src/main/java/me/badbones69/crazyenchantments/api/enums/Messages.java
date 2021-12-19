@@ -7,6 +7,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static me.badbones69.crazyenchantments.func.ConstantsKt.color;
+
 public enum Messages {
     
     CONFIG_RELOAD("Config-Reload", "&7You have reloaded the Config.yml"),
@@ -107,7 +109,7 @@ public enum Messages {
     public static String convertList(List<String> list) {
         String message = "";
         for (String line : list) {
-            message += Methods.color(line) + "\n";
+            message += color(line) + "\n";
         }
         return message;
     }
@@ -199,15 +201,15 @@ public enum Messages {
         boolean exists = exists();
         if (isList) {
             if (exists) {
-                message = Methods.color(convertList(Files.MESSAGES.getFile().getStringList("Messages." + path)));
+                message = color(convertList(Files.MESSAGES.getFile().getStringList("Messages." + path)));
             } else {
-                message = Methods.color(convertList(getDefaultListMessage()));
+                message = color(convertList(getDefaultListMessage()));
             }
         } else {
             if (exists) {
-                message = Methods.color(Files.MESSAGES.getFile().getString("Messages." + path));
+                message = color(Files.MESSAGES.getFile().getString("Messages." + path));
             } else {
-                message = Methods.color(getDefaultMessage());
+                message = color(getDefaultMessage());
             }
         }
         for (Entry<String, String> placeholder : placeholders.entrySet()) {
@@ -215,12 +217,12 @@ public enum Messages {
             .replaceAll(placeholder.getKey().toLowerCase(), placeholder.getValue());
         }
         if (isList) {//Don't want to add a prefix to a list of messages.
-            return Methods.color(message);
+            return color(message);
         } else {//If the message isn't a list.
             if (prefix) {//If the message needs a prefix.
                 return Methods.getPrefix(message);
             } else {//If the message doesn't need a prefix.
-                return Methods.color(message);
+                return color(message);
             }
         }
     }
