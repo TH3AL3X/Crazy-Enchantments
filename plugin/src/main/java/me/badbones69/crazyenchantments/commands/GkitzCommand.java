@@ -5,7 +5,7 @@ import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.enums.Messages;
 import me.badbones69.crazyenchantments.api.objects.CEPlayer;
 import me.badbones69.crazyenchantments.api.objects.GKitz;
-import me.badbones69.crazyenchantments.controllers.GKitzController;
+import me.badbones69.crazyenchantments.listeners.controllers.GKitzController;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

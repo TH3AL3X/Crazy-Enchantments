@@ -4,11 +4,20 @@ import me.badbones69.crazyenchantments.api.CrazyManager;
 import me.badbones69.crazyenchantments.api.FileManager;
 import me.badbones69.crazyenchantments.api.currencyapi.CurrencyAPI;
 import me.badbones69.crazyenchantments.commands.*;
-import me.badbones69.crazyenchantments.controllers.*;
-import me.badbones69.crazyenchantments.enchantments.*;
+import me.badbones69.crazyenchantments.listeners.controllers.*;
+import me.badbones69.crazyenchantments.listeners.enchantments.armor.Armor
+import me.badbones69.crazyenchantments.listeners.enchantments.armor.Boots
+import me.badbones69.crazyenchantments.listeners.enchantments.armor.Helmets
+import me.badbones69.crazyenchantments.listeners.enchantments.tools.Hoes
+import me.badbones69.crazyenchantments.listeners.enchantments.tools.PickAxes
+import me.badbones69.crazyenchantments.listeners.enchantments.tools.Tools
+import me.badbones69.crazyenchantments.listeners.enchantments.weapons.Axes
+import me.badbones69.crazyenchantments.listeners.enchantments.weapons.Bows
+import me.badbones69.crazyenchantments.listeners.enchantments.weapons.Swords
 import me.badbones69.crazyenchantments.func.database.Data
 import me.badbones69.crazyenchantments.func.registerListener
-import me.badbones69.crazyenchantments.multisupport.Version;
+import me.badbones69.crazyenchantments.listeners.enchantments.AllyEnchantments
+import me.badbones69.crazyenchantments.api.multisupport.Version;
 import org.bukkit.attribute.Attribute
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,7 +83,8 @@ class CrazyEnchantments : JavaPlugin() , Listener {
             Boots(),
             Armor(),
             Swords(),
-            AllyEnchantments)
+            AllyEnchantments
+        )
 
             crazyManager.cePlayers.forEach { crazyManager.backupCEPlayer(it) }
     }

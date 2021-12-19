@@ -1,6 +1,6 @@
 package me.badbones69.crazyenchantments.api.enums;
 
-import me.badbones69.crazyenchantments.controllers.ArmorListener;
+import me.badbones69.crazyenchantments.listeners.controllers.ArmorListener;
 import org.bukkit.inventory.ItemStack;
 
 /**

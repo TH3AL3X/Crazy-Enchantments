@@ -2,7 +2,7 @@ package me.badbones69.crazyenchantments.commands;
 
 import me.badbones69.crazyenchantments.Methods;
 import me.badbones69.crazyenchantments.api.enums.Messages;
-import me.badbones69.crazyenchantments.controllers.BlackSmith;
+import me.badbones69.crazyenchantments.listeners.controllers.BlackSmith;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
