@@ -132,16 +132,6 @@ public class Armor implements Listener {
                                             if (!event.isCancelled()) {
                                                 if (armorEnchantment.isPotionEnchantment()) {
                                                     for (PotionEffects effect : armorEnchantment.getPotionEffects()) {
-                                                        //Debug for the enchantment info.
-//                                                        System.out.println(
-//                                                        "===========================" + "\n"
-//                                                        + "Enchantment: " + enchantment.getName() + "\n"
-//                                                        + "Level: " + ce.getLevel(armor, enchantment) + "\n"
-//                                                        + "Effect: " + effect.getPotionEffect().getName() + "\n"
-//                                                        + "Duration: " + (effect.getDuration() / 20) + "s \n"
-//                                                        + "Amplifier: " + effect.getAmplifier() + "\n"
-//                                                        + "Amp + Lvl: " + ((armorEnchantment.isLevelAddedToAmplifier() ? ce.getLevel(armor, enchantment) : 0) + effect.getAmplifier()) + "\n" +
-//                                                        "===========================");
                                                         damager.addPotionEffect(new PotionEffect(effect.getPotionEffect(), effect.getDuration(), (armorEnchantment.isLevelAddedToAmplifier() ? ce.getLevel(armor, enchantment) : 0) + effect.getAmplifier()));
                                                     }
                                                 } else {
