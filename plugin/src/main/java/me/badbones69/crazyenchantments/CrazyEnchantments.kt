@@ -34,7 +34,7 @@ class CrazyEnchantments : JavaPlugin() , Listener {
         super.onEnable()
         fileManager.logInfo(false).setup(this)
 
-        Data(this).load()
+        Data.load(this)
 
         crazyManager.load()
 
@@ -42,7 +42,6 @@ class CrazyEnchantments : JavaPlugin() , Listener {
 
         server.onlinePlayers.forEach {
             crazyManager.loadCEPlayer(it)
-            //if (!health) return
             it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue!!
         }
 
@@ -83,7 +82,7 @@ class CrazyEnchantments : JavaPlugin() , Listener {
     override fun onDisable() {
         super.onDisable()
 
-        Data(this).save()
+        Data.save(this)
 
         if (crazyManager.allyManager != null) crazyManager.allyManager.forceRemoveAllies()
         server.onlinePlayers.forEach { crazyManager.unloadCEPlayer(it) }
@@ -93,7 +92,6 @@ class CrazyEnchantments : JavaPlugin() , Listener {
     fun onPlayerJoin(e: PlayerJoinEvent): Unit = with(e) {
         crazyManager.loadCEPlayer(player)
         crazyManager.updatePlayerEffects(player)
-        //if (!health) return
         player.getAttribute(Attribute.GENERIC_ARMOR)?.baseValue = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue!!
     }
 

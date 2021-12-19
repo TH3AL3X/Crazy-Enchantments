@@ -34,6 +34,7 @@ class JsonManager(private val plugin: JavaPlugin) {
 
     // Call this only on loads.
     fun <T> loadFromFile(default: T, classObject: Class<T>, name: String): T {
+        createDirectory(name)
         val file = File(name)
 
         fun <T> loadClass(classObject: Class<T>): T? {
@@ -66,7 +67,7 @@ class JsonManager(private val plugin: JavaPlugin) {
     }
 
     // Creates the directory & file name, This will run first.
-    fun createDirectory(name: String) {
+    private fun createDirectory(name: String) {
 
         val path = File(plugin.dataFolder, "/data")
 
@@ -77,8 +78,7 @@ class JsonManager(private val plugin: JavaPlugin) {
         if (!file.exists()) file.createNewFile()
     }
 
-    // This will write to the file using gson serialization
-
+    // This will write to the file
     private fun write(parent: DefaultFile) {
         val content = parent.contents
         val file = parent.file
@@ -92,21 +92,11 @@ class JsonManager(private val plugin: JavaPlugin) {
     data class DefaultFile(val file: File, val contents: String)
 }
 
-class Data(private val plugin: JavaPlugin) {
+object Data {
 
-    var testString = ""
+    var testString = "BlahBlah"
 
-    //fun load() = Serializer(plugin.dataFolder, true).load(this, Data::class.java, "config")
+    fun load(plugin: JavaPlugin) = JsonManager(plugin).loadFromFile(this, Data::class.java, "data.json")
 
-    fun load() {
-        JsonManager(plugin).createDirectory("data.json")
-
-        JsonManager(plugin).loadFromFile(this, Data::class.java, "config")
-    }
-
-    fun save() {
-        JsonManager(plugin).saveToFile(this, "config")
-    }
-
-    //fun save() = Serializer(plugin.dataFolder, true).save(this, "config")
+    fun save(plugin: JavaPlugin) = JsonManager(plugin).saveToFile(this, "data.json")
 }
